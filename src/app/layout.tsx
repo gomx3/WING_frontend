@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import '../styles/globals.css'
 import Providers from './providers'
+import { Header } from './components/header'
 
 const pretendard = localFont({
     src: [
@@ -25,9 +26,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko">
-            <body className={`${pretendard.variable} antialiased`}>
+            <body className={`${pretendard.variable} antialiased flex flex-col h-screen mx-3`}>
                 <Providers>
-                    <main>{children}</main>
+                    <Header />
+                    <main className="flex-1">{children}</main>
                 </Providers>
             </body>
         </html>
