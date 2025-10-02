@@ -1,21 +1,12 @@
 'use client'
 
 import Image from 'next/image'
+import { HeaderProps } from './Header'
 import { ChevronDown, UserRound } from 'lucide-react'
 import { useState } from 'react'
 import { UserDropdown } from './UserDropdown'
-import { Button } from '@/common'
-
-type User = {
-    name: string
-}
-
-export interface HeaderProps {
-    user?: User
-    onLogin?: () => void
-    onLogout?: () => void
-    onCreateAccount?: () => void
-}
+import { Button } from '../common'
+import Link from 'next/link'
 
 export const HeaderDesktop = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => {
     const [showDropdown, setShowDropdown] = useState(false)
@@ -23,11 +14,11 @@ export const HeaderDesktop = ({ user, onLogin, onLogout, onCreateAccount }: Head
     const handleProfileClick = () => setShowDropdown(!showDropdown)
 
     return (
-        <div className="relative hidden tablet:flex flex-row justify-between px-4 py-2 border-b border-white-600">
-            {/* left */}
-            <Image src="/assets/wing.svg" alt="WING 로고" priority width={106} height={36} />
+        <div className="relative hidden tablet:flex flex-row justify-between mx-3 px-4 py-2 border-b border-white-600">
+            <Link href="/">
+                <Image src="/assets/wing.svg" alt="WING 로고" priority width={106} height={36} />
+            </Link>
 
-            {/* right */}
             {user ? (
                 <div className="flex flex-row items-center gap-3">
                     <Button label="종목 투자 모드" />

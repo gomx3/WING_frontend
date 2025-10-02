@@ -2,7 +2,7 @@ import { ArticleItem } from './ArticleItem'
 
 export const ArticlePanel = () => {
     return (
-        <div className="w-full max-w-md p-3 space-y-8 border-l border-white-600">
+        <div className="w-full desktop:max-w-[28rem] h-full max-h-[20rem] desktop:max-h-full p-3 space-y-8 border-t desktop:border-t-0 desktop:border-l border-white-600 overflow-y-auto">
             <div>
                 <p className="px-2 py-1 rounded-[4px] w-fit text-[0.8rem] tracking-[-0.4px] text-primary-600 border border-white-500">
                     최근 3개월
@@ -16,6 +16,9 @@ export const ArticlePanel = () => {
             <hr className="border-gray-800" />
 
             <div className="space-y-6">
+                <ArticleItem />
+                <ArticleItem />
+                <ArticleItem />
                 <ArticleItem />
                 <ArticleItem />
                 <ArticleItem />

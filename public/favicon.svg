@@ -1,0 +1,43 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_72_497" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="8" y="10" width="104" height="31">
+<rect x="8" y="10" width="104" height="31" rx="15.5" fill="#F0566D"/>
+</mask>
+<g mask="url(#mask0_72_497)">
+<rect x="8" y="10" width="104" height="31" rx="15.5" fill="#F48091"/>
+<ellipse cx="108.882" cy="35.0905" rx="26.902" ry="22.0478" fill="#A30E25"/>
+<ellipse cx="23.8083" cy="36.4476" rx="23.8795" ry="17.5685" fill="#E71534"/>
+<ellipse cx="60.0001" cy="25.5" rx="21.6497" ry="22.6481" fill="#CD122E"/>
+<ellipse cx="98.6279" cy="15.5396" rx="26.0728" ry="23.889" fill="#EE3C56"/>
+<ellipse cx="28.394" cy="13.5045" rx="19.4825" ry="25.1618" fill="#F0566D"/>
+<foreignObject x="-19" y="-17" width="158" height="85"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(13.5px);clip-path:url(#bgblur_0_72_497_clip_path);height:100%;width:100%"></div></foreignObject><rect data-figma-bg-blur-radius="27" x="8" y="10" width="104" height="31" rx="15.5" fill="#F0566D" fill-opacity="0.01"/>
+</g>
+<mask id="mask1_72_497" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="8" y="44" width="89" height="31">
+<rect x="8" y="44" width="89" height="31" rx="15.5" fill="#F0566D"/>
+</mask>
+<g mask="url(#mask1_72_497)">
+<rect x="8" y="44" width="89" height="31" rx="15.5" fill="#EE3C56"/>
+<ellipse cx="90.0038" cy="72.1697" rx="20.5914" ry="16.7698" fill="#E71534"/>
+<ellipse cx="52.5" cy="59.5" rx="18.6826" ry="23.461" fill="#F0566D"/>
+<ellipse cx="8.14864" cy="47.2747" rx="22.5327" ry="20.251" fill="#A30E25"/>
+<ellipse cx="14.6736" cy="72.372" rx="19.1219" ry="21.9272" fill="#CD122E"/>
+<ellipse cx="89.6304" cy="51.1551" rx="21.9416" ry="19.2184" fill="#F48091"/>
+<foreignObject x="-16" y="20" width="137" height="79"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(12px);clip-path:url(#bgblur_1_72_497_clip_path);height:100%;width:100%"></div></foreignObject><rect data-figma-bg-blur-radius="24" x="8" y="44" width="89" height="31" rx="15.5" fill="#F0566D" fill-opacity="0.01"/>
+</g>
+<mask id="mask2_72_497" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="8" y="78" width="66" height="31">
+<rect x="8" y="78" width="66" height="31" rx="15.5" fill="#F0566D"/>
+</mask>
+<g mask="url(#mask2_72_497)">
+<rect x="8" y="78" width="66" height="31" rx="15.5" fill="#FAC5CD"/>
+<ellipse cx="62.5852" cy="108.765" rx="15.9693" ry="16.6022" fill="#E71534"/>
+<ellipse cx="9.12385" cy="102.779" rx="18.2968" ry="18.6092" fill="#F48091"/>
+<ellipse cx="12.8269" cy="82.4909" rx="12.971" ry="16.676" fill="#F7AAB6"/>
+<ellipse cx="65.6607" cy="83.7741" rx="15.4509" ry="14.1833" fill="#EE3C56"/>
+<ellipse cx="41" cy="93.5" rx="15.6537" ry="18.3862" fill="#F0566D"/>
+<foreignObject x="-11.4" y="58.6" width="104.8" height="69.8"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(9.7px);clip-path:url(#bgblur_2_72_497_clip_path);height:100%;width:100%"></div></foreignObject><rect data-figma-bg-blur-radius="19.4" x="8" y="78" width="66" height="31" rx="15.5" fill="#F0566D" fill-opacity="0.01"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_72_497_clip_path" transform="translate(19 17)"><rect x="8" y="10" width="104" height="31" rx="15.5"/>
+</clipPath><clipPath id="bgblur_1_72_497_clip_path" transform="translate(16 -20)"><rect x="8" y="44" width="89" height="31" rx="15.5"/>
+</clipPath><clipPath id="bgblur_2_72_497_clip_path" transform="translate(11.4 -58.6)"><rect x="8" y="78" width="66" height="31" rx="15.5"/>
+</clipPath></defs>
+</svg>

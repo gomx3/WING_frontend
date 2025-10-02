@@ -1,17 +1,17 @@
 import { LucideIcon } from 'lucide-react'
 
-interface CustomListItemProps {
+interface DropdownItemProps {
     label: string
     Icon?: LucideIcon
     onClick?: () => void
 }
 
-export const CustomListItem = ({ label, Icon, onClick }: CustomListItemProps) => {
+export const DropdownItem = ({ label, Icon, onClick }: DropdownItemProps) => {
     return (
         <li
             onClick={onClick}
             className="
-                flex flex-row justify-start items-center px-4 py-2 gap-2 
+                flex flex-row justify-start items-center px-3 py-2 gap-2 
                 hover:bg-white-700 cursor-pointer
             "
         >
