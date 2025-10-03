@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { HeaderDesktop } from './HeaderDesktop'
 import { HeaderMobile } from './HeaderMobile'
-import Modal from '../common/Modal'
 import { useRouter } from 'next/navigation'
 import { User } from '@/types/user'
 import { LoginModal } from './LoginModal'
