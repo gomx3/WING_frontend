@@ -14,7 +14,7 @@ export const HeaderMobile = ({ user, onLogin, onLogout, onCreateAccount }: Heade
     const toggleMenu = () => setShowMenu(!showMenu)
 
     return (
-        <div className="flex tablet:hidden px-4 py-2 border-b border-white-600">
+        <div className="flex tablet:hidden mx-3 p-2 border-b border-white-600">
             {/* overlay */}
             {showMenu && (
                 <div onClick={toggleMenu} className="cursor-pointer fixed inset-0 bg-neutral-black-opacity25 z-30" />

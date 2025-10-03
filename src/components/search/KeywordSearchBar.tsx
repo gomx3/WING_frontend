@@ -1,13 +1,39 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Tag } from './Tag'
+import { useGraphStore } from '@/stores/graphStore'
 
 const MAX_KEYWORDS = 10
 
 export const KeywordSearchBar = () => {
     const [inputValue, setInputValue] = useState('')
     const [keywords, setKeywords] = useState<string[]>([])
+
+    const { setGraphData, setIsLoading } = useGraphStore()
+
+    useEffect(() => {
+        const fetchGraphData = async () => {
+            if (keywords.length === 0) {
+                setGraphData({ nodes: [], links: [] })
+                return
+            }
+
+            setIsLoading(true)
+            try {
+                const response = await fetch(`/api/graph?keywords=${keywords.join(',')}`)
+                const data = await response.json()
+                setGraphData(data)
+            } catch (error) {
+                console.error('Failed to fetch graph data:', error)
+                setGraphData({ nodes: [], links: [] }) // 에러 발생 시 데이터 초기화
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        fetchGraphData()
+    }, [keywords, setGraphData, setIsLoading])
 
     const addKeyword = () => {
         const newKeyword = inputValue.trim()

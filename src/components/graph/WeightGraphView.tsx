@@ -3,21 +3,9 @@
 import dynamic from 'next/dynamic'
 import React, { useEffect, useRef } from 'react'
 
-import jsonData from './graph.json'
-import { ForceGraphMethods, ForceGraphProps, LinkObject, NodeObject } from 'react-force-graph-2d'
-
-interface MyNode extends NodeObject {
-    id: string
-    label: string
-    importance: number
-    sentiment: number
-}
-
-interface MyLink extends LinkObject {
-    source: string | MyNode
-    target: string | MyNode
-    weight: number
-}
+import { ForceGraphMethods, ForceGraphProps } from 'react-force-graph-2d'
+import { MyLink, MyNode } from '@/types/graph'
+import { useGraphStore } from '@/stores/graphStore'
 
 const ForceGraph = dynamic(() => import('react-force-graph-2d'), {
     ssr: false,
@@ -30,6 +18,8 @@ const ForceGraph = dynamic(() => import('react-force-graph-2d'), {
 export const WeightGraphView = () => {
     const forceRef = useRef<ForceGraphMethods<MyNode, MyLink>>(null)
 
+    const { graphData } = useGraphStore()
+
     useEffect(() => {
         if (forceRef.current) {
             forceRef.current.d3Force('charge')?.strength(-350)
@@ -37,16 +27,17 @@ export const WeightGraphView = () => {
         }
     }, [])
 
-    const data = {
-        nodes: jsonData.nodes as MyNode[],
-        links: jsonData.edges as MyLink[],
-    }
+    useEffect(() => {
+        if (forceRef.current) {
+            forceRef.current.d3ReheatSimulation()
+        }
+    }, [graphData])
 
     return (
         <div className="absolute top-0 left-0 w-full h-full">
             <ForceGraph
                 ref={forceRef}
-                graphData={data}
+                graphData={graphData}
                 nodeVal={(node: MyNode) => node.importance * 10 + 5}
                 nodeColor={(node: MyNode) => {
                     if (node.sentiment > 0.1) return '#f0566d' // 긍정
