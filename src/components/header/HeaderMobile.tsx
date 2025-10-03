@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Button } from '../common'
 import { DropdownItem } from './DropdownItem'
+import clsx from 'clsx'
 
 export const HeaderMobile = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => {
     const [showMenu, setShowMenu] = useState(false)
@@ -33,8 +34,10 @@ export const HeaderMobile = ({ user, onLogin, onLogout, onCreateAccount }: Heade
             {/* menu slide */}
             <div
                 onClick={(e) => e.stopPropagation()}
-                className={`fixed top-0 left-0 flex flex-col w-[248px] h-screen z-50 p-4 gap-6 bg-white-700 
-                    transition-transform duration-300 ${showMenu ? 'translate-x-0' : '-translate-x-full'}`}
+                className={clsx(
+                    'fixed top-0 left-0 flex flex-col w-[248px] h-screen z-50 p-4 gap-6 bg-white-700 transition-transform duration-300',
+                    showMenu ? 'translate-x-0' : '-translate-x-full'
+                )}
             >
                 <div className="flex flex-row items-center justify-between">
                     <Link href="/">
