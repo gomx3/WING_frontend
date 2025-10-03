@@ -1,8 +1,7 @@
+import { HeaderDesktop } from '@/components/header/HeaderDesktop'
 import type { Meta, StoryObj } from '@storybook/nextjs'
 
 import { fn } from 'storybook/test'
-
-import { HeaderDesktop } from '@/app/components/header/HeaderDesktop'
 
 export const ActionsData = {
     onLogin: fn(),
