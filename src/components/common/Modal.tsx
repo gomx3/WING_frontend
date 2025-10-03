@@ -56,15 +56,15 @@ const Modal = ({ title, description, onClose, className = '', children }: PropsW
             aria-describedby="modal-description"
             className="fixed inset-0 z-50 flex items-start justify-center min-w-[288px]"
         >
-            <div className="absolute inset-0 bg-neutral-black-opacity50" />
+            <div className="absolute inset-0 bg-neutral-black-opacity25" />
 
             {/* 모달 창 */}
             <div
                 ref={modalRef}
                 onClick={(e) => e.stopPropagation()}
                 className={`
-                    relative flex flex-col min-w-[288px] tablet:min-w-[384px] desktop:min-w-[486px]
-                    space-y-4 tablet:space-y-6 bg-surface-elevate-l2 p-6 rounded-3xl
+                    relative flex flex-col min-w-[18rem] tablet:min-w-[24rem] desktop:min-w-[30rem]
+                    space-y-4 tablet:space-y-6 bg-white-700 p-6 rounded-[1rem]
                     modal-animation ${className}
                 `}
                 style={marginTop !== null ? { marginTop } : undefined}
@@ -82,14 +82,17 @@ const Modal = ({ title, description, onClose, className = '', children }: PropsW
                     <h1
                         id="modal-title"
                         className="
-                            font-title-20b
+                            text-[1.125rem] tablet:text-[1.25rem] leading-[140%] tracking-[-0.4px] font-bold text-gray-100
                             whitespace-pre-line tablet:whitespace-nowrap    
                         "
                     >
                         {title}
                     </h1>
                     {description && (
-                        <p id="modal-description" className="font-body-16r text-gray-600">
+                        <p
+                            id="modal-description"
+                            className="text-[0.875rem] tablet:text-[1rem] leading-[140%] tracking-[-0.35px] text-gray-500"
+                        >
                             {description}
                         </p>
                     )}

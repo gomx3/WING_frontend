@@ -6,6 +6,7 @@ import { HeaderMobile } from './HeaderMobile'
 import Modal from '../common/Modal'
 import { useRouter } from 'next/navigation'
 import { User } from '@/types/user'
+import { LoginModal } from './LoginModal'
 
 export interface HeaderProps {
     user?: User
@@ -21,10 +22,14 @@ export const Header = () => {
 
     const handleLoginClick = () => {
         setShowLoginModal(true)
-        setUser({ name: 'Jane Doe' })
     }
 
     const handleLoginClose = () => setShowLoginModal(false)
+
+    const onLogin = () => {
+        setUser({ name: 'Jane Doe' })
+        handleLoginClose()
+    }
 
     const onCreateAccount = () => router.push('/auth/signup')
 
@@ -45,7 +50,7 @@ export const Header = () => {
                 />
             </header>
 
-            {showLoginModal && <Modal title="test" description="test" onClose={handleLoginClose} />}
+            {showLoginModal && <LoginModal onClose={handleLoginClose} onLogin={onLogin} />}
         </>
     )
 }
