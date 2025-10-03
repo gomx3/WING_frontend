@@ -5,10 +5,7 @@ import { HeaderDesktop } from './HeaderDesktop'
 import { HeaderMobile } from './HeaderMobile'
 import Modal from '../common/Modal'
 import { useRouter } from 'next/navigation'
-
-type User = {
-    name: string
-}
+import { User } from '@/types/user'
 
 export interface HeaderProps {
     user?: User
