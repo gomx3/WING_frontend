@@ -58,7 +58,7 @@ export const KeywordSearchBar = () => {
     }
 
     return (
-        <div className="w-full max-w-[36rem] p-2 space-y-1 rounded-[0.375rem] bg-[f6f6f680] backdrop-blur-sm">
+        <div className="w-full max-w-[36rem] p-2 space-y-1 rounded-[0.375rem] bg-[#f6f6f680] backdrop-blur-sm">
             <label className="text-[0.8rem] font-medium text-white-400 block">
                 키워드 ({keywords.length} / {MAX_KEYWORDS})
             </label>

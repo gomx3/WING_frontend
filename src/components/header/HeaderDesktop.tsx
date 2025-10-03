@@ -20,7 +20,7 @@ export const HeaderDesktop = ({ user, onLogin, onLogout, onCreateAccount }: Head
             </Link>
 
             {user ? (
-                <div className="flex flex-row items-center gap-3">
+                <div className="relative flex flex-row items-center gap-3">
                     <Button label="종목 투자 모드" />
                     <p className="text-[0.9rem]">
                         Welcome, <b>{user.name}</b>!
@@ -29,7 +29,7 @@ export const HeaderDesktop = ({ user, onLogin, onLogout, onCreateAccount }: Head
                         onClick={handleProfileClick}
                         className="flex flex-row justify-center items-center cursor-pointer gap-1"
                     >
-                        <button className="flex justify-center items-center w-9 aspect-square rounded-full border-1 border-white-400 bg-white-700 cursor-pointer">
+                        <button className="flex justify-center items-center w-9 aspect-square rounded-full border border-white-400 bg-white-700 cursor-pointer">
                             <UserRound className="text-white-50" />
                         </button>
                         <ChevronDown className="size-4" />

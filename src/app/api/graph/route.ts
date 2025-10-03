@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import path from 'path'
 import { promises as fs } from 'fs'
-import { MyLink, MyNode } from '@/types/graph' // 타입 경로는 실제 프로젝트에 맞게 조정해주세요.
+import { MyLink, MyNode } from '@/types/graph'
 
-type GraphData = {
+type GraphJsonData = {
     nodes: MyNode[]
     edges: MyLink[]
 }
@@ -13,7 +13,7 @@ export async function GET(request: Request) {
         // 1. graph.json 파일 읽기
         const jsonPath = path.join(process.cwd(), 'public', 'graph.json')
         const fileContents = await fs.readFile(jsonPath, 'utf8')
-        const jsonData: GraphData = JSON.parse(fileContents)
+        const jsonData: GraphJsonData = JSON.parse(fileContents)
 
         // 2. 쿼리 파라미터에서 keywords 가져오기
         const { searchParams } = new URL(request.url)
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
         const filteredNodeIds = new Set(filteredNodes.map((node: MyNode) => node.id))
 
         // 4. 필터링된 노드들 사이에만 존재하는 엣지(링크) 필터링
-        // JSON 데이터의 'edges'를 사용하도록 수정했습니다.
+        // JSON 데이터의 'edges'를 사용
         const filteredLinks = jsonData.edges.filter((link: MyLink) => {
             const sourceId = typeof link.source === 'object' ? link.source.id : link.source
             const targetId = typeof link.target === 'object' ? link.target.id : link.target

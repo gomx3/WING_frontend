@@ -1,18 +1,15 @@
+import { Article } from '@/types/articles'
 import Image from 'next/image'
 import Link from 'next/link'
 
 const IMAGE_SRC =
     'https://vanilla-crop-0ed.notion.site/image/attachment%3A798a19bd-473b-4cab-bb62-ac7b85e8ee6e%3Aimage.png?table=block&id=27e89bed-ac8c-8069-8b98-c72307815d58&spaceId=82089bed-ac8c-8158-af3b-0003d8133478&width=1420&userId=&cache=v2'
 
-interface Article {
-    title: string
-    summary: string
-    origin: string
-    updatedAt: string
-    link: string
+interface ArticleItemProps {
+    article: Article
 }
 
-export const ArticleItem = ({ article }: { article: Article }) => {
+export const ArticleItem = ({ article }: ArticleItemProps) => {
     return (
         <Link href={article.link} target="_blank" rel="noopener noreferrer" className="flex flex-row items-start gap-4">
             <div className="flex flex-col w-full">
@@ -24,7 +21,7 @@ export const ArticleItem = ({ article }: { article: Article }) => {
                     {article.origin} | {article.updatedAt}
                 </p>
             </div>
-            <Image src={IMAGE_SRC} alt="임시 기사 썸네일" width={120} height={60} className="rounded-[8px]" />
+            <Image src={IMAGE_SRC} alt={article.title} width={120} height={60} className="rounded-[8px]" />
         </Link>
     )
 }

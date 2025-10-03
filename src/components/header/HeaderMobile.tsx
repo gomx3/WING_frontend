@@ -56,7 +56,7 @@ export const HeaderMobile = ({ user, onLogin, onLogout, onCreateAccount }: Heade
                                 <Button label="종목 투자 모드" className="w-full" />
 
                                 <div className="flex flex-row justify-start items-center cursor-pointer gap-2">
-                                    <button className="flex justify-center items-center w-9 aspect-square rounded-full border-1 border-white-400 bg-white-700 cursor-pointer">
+                                    <button className="flex justify-center items-center w-9 aspect-square rounded-full border border-white-400 bg-white-700 cursor-pointer">
                                         <UserRound className="text-white-50" />
                                     </button>
                                     <p className="text-[0.9rem]">{user.name}</p>
