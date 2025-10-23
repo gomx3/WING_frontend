@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import '../styles/globals.css'
+import '../styles/global.css'
 import Providers from './providers'
 import { Header } from '@/components/header'
+import { Sidebar } from '@/components/sidebar'
 
 const pretendard = localFont({
     src: [
@@ -29,10 +30,15 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko">
-            <body className={`${pretendard.variable} antialiased flex flex-col h-screen`}>
+            <body className={`${pretendard.variable} antialiased flex flex-col h-screen overflow-y-hidden`}>
                 <Providers>
-                    <Header />
-                    <main className="flex-1 overflow-hidden mx-3">{children}</main>
+                    <div className="flex flex-row w-full h-full">
+                        <Sidebar />
+                        <div className="flex flex-col w-full">
+                            <Header />
+                            <main className="flex-1 overflow-y-hidden">{children}</main>
+                        </div>
+                    </div>
                 </Providers>
             </body>
         </html>

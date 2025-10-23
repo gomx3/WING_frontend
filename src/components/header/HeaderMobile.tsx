@@ -9,7 +9,7 @@ import { Button } from '../common'
 import { DropdownItem } from './DropdownItem'
 import clsx from 'clsx'
 
-export const HeaderMobile = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => {
+export const HeaderMobile = ({ user, onLogin, onLogout }: HeaderProps) => {
     const [showMenu, setShowMenu] = useState(false)
 
     const toggleMenu = () => setShowMenu(!showMenu)
@@ -27,7 +27,7 @@ export const HeaderMobile = ({ user, onLogin, onLogout, onCreateAccount }: Heade
                 onClick={toggleMenu}
                 className="flex flex-row items-center gap-2 cursor-pointer"
             >
-                <Menu className="size-4 text-gray-500" />
+                <Menu className="size-4 text-neutral-500" />
                 <Image src="/assets/wing.svg" alt="WING 로고" priority width={88} height={30} />
             </button>
 
@@ -36,7 +36,7 @@ export const HeaderMobile = ({ user, onLogin, onLogout, onCreateAccount }: Heade
                 onClick={(e) => e.stopPropagation()}
                 className={clsx(
                     'fixed top-0 left-0 flex flex-col w-[248px] h-screen z-50 p-4 gap-6 bg-white-700 transition-transform duration-300',
-                    showMenu ? 'translate-x-0' : '-translate-x-full'
+                    showMenu ? 'tranneutral-x-0' : '-tranneutral-x-full'
                 )}
             >
                 <div className="flex flex-row items-center justify-between">
@@ -73,10 +73,7 @@ export const HeaderMobile = ({ user, onLogin, onLogout, onCreateAccount }: Heade
                             </ul>
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center w-full gap-2">
-                            <Button label="Log in" onClick={onLogin} variant="secondary" className="w-full" />
-                            <Button label="Sign in" onClick={onCreateAccount} className="w-full" />
-                        </div>
+                        <Button label="Log in" onClick={onLogin} variant="secondary" className="w-full" />
                     )}
                 </div>
             </div>

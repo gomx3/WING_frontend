@@ -14,10 +14,10 @@ export const ArticleItem = ({ article }: ArticleItemProps) => {
         <Link href={article.link} target="_blank" rel="noopener noreferrer" className="flex flex-row items-start gap-4">
             <div className="flex flex-col w-full">
                 <div className="text-[1rem] font-bold leading-[130%]">{article.title}</div>
-                <p className="text-[0.9rem] leading-[120%] line-clamp-3 overflow-hidden text-gray-500">
+                <p className="text-[0.9rem] leading-[120%] line-clamp-3 overflow-hidden text-neutral-500">
                     {article.summary}
                 </p>
-                <p className="text-[0.9rem] text-gray-500">
+                <p className="text-[0.9rem] text-neutral-500">
                     {article.origin} | {article.updatedAt}
                 </p>
             </div>

@@ -1,48 +1,62 @@
 'use client'
 
-import Image from 'next/image'
 import { HeaderProps } from './Header'
 import { ChevronDown, UserRound } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { UserDropdown } from './UserDropdown'
 import { Button } from '../common'
 import Link from 'next/link'
+import { SearchBar } from './SearchBar'
+import Image from 'next/image'
 
-export const HeaderDesktop = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => {
+export const HeaderDesktop = ({ user, onLogin, onLogout }: HeaderProps) => {
     const [showDropdown, setShowDropdown] = useState(false)
 
-    const handleProfileClick = () => setShowDropdown(!showDropdown)
+    const handleProfileClick = () => setShowDropdown((prev) => !prev)
+
+    const dropdownRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setShowDropdown(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
 
     return (
-        <div className="relative hidden tablet:flex flex-row justify-between mx-3 px-4 py-2 border-b border-white-600">
+        <div className="relative flex flex-row justify-between px-6 py-3">
             <Link href="/">
-                <Image src="/assets/wing.svg" alt="WING 로고" priority width={106} height={36} />
+                <Image src="/assets/wing.svg" alt="WING 로고" priority width={100} height={30} />
             </Link>
 
-            {user ? (
-                <div className="relative flex flex-row items-center gap-3">
-                    <Button label="종목 투자 모드" />
-                    <p className="text-[0.9rem]">
-                        Welcome, <b>{user.name}</b>!
-                    </p>
-                    <div
-                        onClick={handleProfileClick}
-                        className="flex flex-row justify-center items-center cursor-pointer gap-1"
-                    >
-                        <button className="flex justify-center items-center w-9 aspect-square rounded-full border border-white-400 bg-white-700 cursor-pointer">
-                            <UserRound className="text-white-50" />
-                        </button>
-                        <ChevronDown className="size-4" />
-                    </div>
+            <div className="flex flex-row items-center gap-3">
+                <SearchBar />
+                {user ? (
+                    <div className="relative flex flex-row items-center gap-3">
+                        <div
+                            onClick={handleProfileClick}
+                            className="flex flex-row justify-center items-center cursor-pointer gap-1"
+                        >
+                            <button className="flex justify-center items-center w-9 aspect-square rounded-full border border-neutral-300 bg-neutral-200 cursor-pointer">
+                                <UserRound className="text-neutral-400" />
+                            </button>
+                            <ChevronDown className="size-4 text-neutral-400" />
+                        </div>
 
-                    {showDropdown && <UserDropdown onLogout={onLogout} />}
-                </div>
-            ) : (
-                <div className="flex flex-row items-center gap-3">
-                    <Button label="Log in" onClick={onLogin} variant="secondary" />
-                    <Button label="Sign in" onClick={onCreateAccount} />
-                </div>
-            )}
+                        {showDropdown && <UserDropdown onLogout={onLogout} showDropdown={showDropdown} />}
+                    </div>
+                ) : (
+                    <div className="flex flex-row items-center gap-3">
+                        <Button label="로그인" onClick={onLogin} />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

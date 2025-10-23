@@ -2,7 +2,7 @@
 
 import { useGraphStore } from '@/stores/graphStore'
 import { ArticleItem } from './ArticleItem'
-import Image from 'next/image'
+import { ArticlePanelPlaceholder } from './ArticlePlaceholder'
 
 const ARTICLE = {
     title: 'AI 주식 추천, 9월에도 강세 지속, S&P 500 대비 109% 초과 수익',
@@ -11,21 +11,6 @@ const ARTICLE = {
     origin: 'Investing.com',
     updatedAt: '2025-09-30',
     link: 'https://kr.investing.com/news/stock-market-news/article-1651369',
-}
-
-const ArticlePanelPlaceholder = () => {
-    return (
-        <div className="w-full desktop:max-w-[28rem] h-full flex flex-col items-center justify-center p-3 gap-3 border-t desktop:border-t-0 desktop:border-l border-white-600">
-            <Image src="/assets/news.svg" alt="" width={180} height={196} />
-
-            <h3 className="mt-2 text-[1.25rem] font-semibold text-gray-100 whitespace-pre-line text-center leading-[130%] tracking-[-0.45px]">
-                관계선을 선택해{'\n'} 뉴스 목록을 확인하세요.
-            </h3>
-            <p className="mt-1 text-[0.8rem] leading-[130%] text-gray-400 tracking-[-0.45px]">
-                두 키워드 간 관계를 보여주는 기사들을 확인할 수 있어요.
-            </p>
-        </div>
-    )
 }
 
 export const ArticlePanel = () => {
@@ -37,18 +22,18 @@ export const ArticlePanel = () => {
     }
 
     return (
-        <div className="w-full desktop:max-w-[28rem] h-full max-h-[16rem] tablet:max-h-[20rem] desktop:max-h-full p-3 space-y-8 border-t desktop:border-t-0 desktop:border-l border-white-600 overflow-y-auto">
+        <div className="w-[32rem] h-full p-6 space-y-8 border-l border-neutral-200 overflow-y-auto">
             <div>
                 <p className="px-2 py-1 rounded-[4px] w-fit text-[0.8rem] tracking-[-0.4px] text-primary-600 border border-white-500">
                     최근 3개월
                 </p>
                 <h3 className="font-bold text-[1.4rem]">{`노드 A <-> 노드 B 관련 기사`}</h3>
-                <p className="text-[0.9rem] tracking-[-0.45px] text-gray-300">
+                <p className="text-[0.9rem] tracking-[-0.45px] text-neutral-600">
                     최근 3개월 동안 35개의 기사에서 함께 언급되었습니다.
                 </p>
             </div>
 
-            <hr className="border-gray-800" />
+            <hr className="border-neutral-200" />
 
             <div className="space-y-6">
                 <ArticleItem article={ARTICLE} />

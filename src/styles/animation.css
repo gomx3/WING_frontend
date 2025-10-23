@@ -13,7 +13,7 @@
     }
 
     .modal-animation {
-        animation: fadeInScaleUp 0.3s ease-in-out;
+        animation: fadeInScaleUp 0.2s ease-in-out;
     }
 
     @keyframes fadeInScaleUp {
