@@ -26,7 +26,7 @@ export const ArticleItem = ({ article }: ArticleItemProps) => {
                 <h3 className="text-neutral-600 text-[1rem] font-semibold tracking-[-0.4px]">
                     {truncateMiddle(article.title, 22, 10)}
                 </h3>
-                <p className="text-[0.9rem] text-neutral-500">
+                <p className="text-[0.9rem] text-neutral-500 tracking-[-0.4px]">
                     {formatRelativeTime(article.updatedAt)}・{article.origin}
                 </p>
             </div>
