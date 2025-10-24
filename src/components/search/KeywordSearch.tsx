@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { KeywordSearchBar } from './KeywordSearchBar'
 import { useSearchStore } from '@/stores/searchStore'
 
