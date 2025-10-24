@@ -37,7 +37,7 @@ export const Input = ({
         secondary: '',
     }
 
-    const iconBaseClass = 'absolute top-1/2 -tranneutral-y-1/2 text-neutral-500 pointer-events-none'
+    const iconBaseClass = 'absolute top-1/2 -translate-y-1/2 text-neutral-500 pointer-events-none'
 
     return (
         <div>
@@ -48,7 +48,7 @@ export const Input = ({
             )}
 
             <div className="relative">
-                {showIcon && <Search className={clsx(iconBaseClass, 'left-3 top-2 size-4')} />}
+                {showIcon && <Search className={clsx(iconBaseClass, 'left-3 top-1/2 size-4')} />}
 
                 <input
                     {...props}
@@ -66,7 +66,7 @@ export const Input = ({
                     <button
                         type="button"
                         onClick={() => setShowPassword((prev) => !prev)}
-                        className="absolute right-3 top-1/2 -tranneutral-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer"
                     >
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>

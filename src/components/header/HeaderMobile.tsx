@@ -36,7 +36,7 @@ export const HeaderMobile = ({ user, onLogin, onLogout }: HeaderProps) => {
                 onClick={(e) => e.stopPropagation()}
                 className={clsx(
                     'fixed top-0 left-0 flex flex-col w-[248px] h-screen z-50 p-4 gap-6 bg-white-700 transition-transform duration-300',
-                    showMenu ? 'tranneutral-x-0' : '-tranneutral-x-full'
+                    showMenu ? 'translate-x-0' : '-translate-x-full'
                 )}
             >
                 <div className="flex flex-row items-center justify-between">
