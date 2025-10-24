@@ -25,8 +25,22 @@ export const LoginModal = ({ onClose, onLogin }: LoginModalProps) => {
             footerContent={SignupLink}
         >
             <div className="flex flex-col gap-2">
-                <Input label="이메일" size="lg" id="email" type="email" placeholder="example@email.com" />
-                <Input label="비밀번호" size="lg" id="password" type="password" placeholder="********" />
+                <Input
+                    label="이메일"
+                    size="lg"
+                    variant="secondary"
+                    id="email"
+                    type="email"
+                    placeholder="example@email.com"
+                />
+                <Input
+                    label="비밀번호"
+                    size="lg"
+                    variant="secondary"
+                    id="password"
+                    type="password"
+                    placeholder="********"
+                />
             </div>
 
             <Button label="확인하기" size="lg" onClick={onLogin} />
