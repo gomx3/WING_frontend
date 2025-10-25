@@ -4,4 +4,5 @@ export interface Article {
     origin: string
     updatedAt: string
     link: string
+    image: string
 }

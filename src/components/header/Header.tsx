@@ -2,22 +2,20 @@
 
 import { useState } from 'react'
 import { HeaderDesktop } from './HeaderDesktop'
-import { HeaderMobile } from './HeaderMobile'
-import { useRouter } from 'next/navigation'
 import { User } from '@/types/user'
-import { LoginModal } from './LoginModal'
+import { useUserStore } from '@/stores/userStore'
+import { LoginModal } from '../auth'
 
 export interface HeaderProps {
     user?: User
     onLogin?: () => void
     onLogout?: () => void
-    onCreateAccount?: () => void
 }
 
 export const Header = () => {
-    const [user, setUser] = useState<User>()
     const [showLoginModal, setShowLoginModal] = useState(false)
-    const router = useRouter()
+
+    const { user, setUser } = useUserStore()
 
     const handleLoginClick = () => {
         setShowLoginModal(true)
@@ -26,27 +24,14 @@ export const Header = () => {
     const handleLoginClose = () => setShowLoginModal(false)
 
     const onLogin = () => {
-        setUser({ name: 'Jane Doe' })
+        setUser({ name: '홍길동' })
         handleLoginClose()
     }
-
-    const onCreateAccount = () => router.push('/auth/signup')
 
     return (
         <>
             <header>
-                <HeaderDesktop
-                    user={user}
-                    onLogin={handleLoginClick}
-                    onLogout={() => setUser(undefined)}
-                    onCreateAccount={onCreateAccount}
-                />
-                <HeaderMobile
-                    user={user}
-                    onLogin={handleLoginClick}
-                    onLogout={() => setUser(undefined)}
-                    onCreateAccount={onCreateAccount}
-                />
+                <HeaderDesktop user={user} onLogin={handleLoginClick} onLogout={() => setUser(undefined)} />
             </header>
 
             {showLoginModal && <LoginModal onClose={handleLoginClose} onLogin={onLogin} />}

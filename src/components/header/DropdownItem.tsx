@@ -11,12 +11,12 @@ export const DropdownItem = ({ label, Icon, onClick }: DropdownItemProps) => {
         <li
             onClick={onClick}
             className="
-                flex flex-row justify-start items-center px-3 py-2 gap-2 
-                hover:bg-white-700 cursor-pointer
+                flex flex-row justify-start items-center px-4 py-4 gap-2 
+                hover:bg-neutral-100/80 cursor-pointer
             "
         >
-            {Icon && <Icon className="size-5 text-gray-200" />}
-            <span className="text-[0.9rem]">{label}</span>
+            {Icon && <Icon className="size-5 text-neutral-500" />}
+            <span className="text-[1rem]">{label}</span>
         </li>
     )
 }

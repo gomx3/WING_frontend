@@ -1,22 +1,75 @@
 'use client'
 
-import { InputHTMLAttributes } from 'react'
+import clsx from 'clsx'
+import { Eye, EyeOff, Search } from 'lucide-react'
+import { forwardRef, InputHTMLAttributes, useState } from 'react'
 
-// Input 태그의 기본 속성을 모두 포함하도록 확장합니다.
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    label: string
+interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+    label?: string
+    size?: 'sm' | 'md' | 'lg'
+    variant?: 'primary' | 'secondary'
+    className?: string
+    showIcon?: boolean
 }
 
-export const Input = ({ label, ...props }: InputProps) => {
-    return (
-        <div className="w-full">
-            <label htmlFor={props.id || props.name} className="block mb-1 text-[0.875rem] font-medium text-white-200">
-                {label}
-            </label>
-            <input
-                {...props}
-                className="w-full px-3 py-2 bg-white-600 border border-white-400 rounded-[0.375rem] text-[0.875rem] tablet:text-[1rem] text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-400"
-            />
-        </div>
-    )
-}
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+    ({ label, size = 'md', variant = 'primary', className = '', showIcon = false, type = 'text', ...props }, ref) => {
+        const [showPassword, setShowPassword] = useState(false)
+
+        const sizeClasses: Record<typeof size, string> = {
+            sm: '',
+            md: 'rounded-[0.5rem] px-[0.625rem] py-[0.25rem] py-1 text-[0.875rem]',
+            lg: 'rounded-[0.725rem] px-4 py-2 text-[1rem]',
+        }
+
+        const variantClasses: Record<typeof variant, string> = {
+            primary:
+                'bg-neutral-100 border border-neutral-300 placeholder-neutral-500 text-neutral-700 focus:outline-none',
+            secondary: clsx(
+                'bg-neutral-100 border border-neutral-300 placeholder-neutral-500 text-neutral-700',
+                'focus:outline-none focus:border-primary-600 transition-colors duration-100'
+            ),
+        }
+
+        const iconBaseClass = 'absolute top-1/2 -translate-y-1/2 text-neutral-500 pointer-events-none'
+
+        return (
+            <div>
+                {label && (
+                    <label htmlFor={props.id || props.name} className="block mb-1 text-[0.875rem] text-neutral-500">
+                        {label}
+                    </label>
+                )}
+
+                <div className="relative">
+                    {showIcon && <Search className={clsx(iconBaseClass, 'left-3 top-1/2 size-4')} />}
+
+                    <input
+                        {...props}
+                        ref={ref}
+                        type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
+                        className={clsx(
+                            'w-full font-medium',
+                            sizeClasses[size],
+                            variantClasses[variant],
+                            showIcon && 'pl-9',
+                            className
+                        )}
+                    />
+
+                    {type === 'password' && (
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors cursor-pointer"
+                        >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                    )}
+                </div>
+            </div>
+        )
+    }
+)
+
+Input.displayName = 'Input'

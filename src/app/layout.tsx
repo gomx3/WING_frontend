@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import '../styles/globals.css'
+import '../styles/global.css'
 import Providers from './providers'
 import { Header } from '@/components/header'
+import { Sidebar } from '@/components/sidebar'
 
 const pretendard = localFont({
     src: [
         { path: '../styles/fonts/Pretendard-Bold.woff2', weight: '700', style: 'normal' },
+        { path: '../styles/fonts/Pretendard-SemiBold.woff2', weight: '600', style: 'normal' },
         { path: '../styles/fonts/Pretendard-Medium.woff2', weight: '500', style: 'normal' },
         { path: '../styles/fonts/Pretendard-Regular.woff2', weight: '400', style: 'normal' },
     ],
@@ -31,8 +33,13 @@ export default function RootLayout({
         <html lang="ko">
             <body className={`${pretendard.variable} antialiased flex flex-col h-screen`}>
                 <Providers>
-                    <Header />
-                    <main className="flex-1 overflow-hidden mx-3">{children}</main>
+                    <div className="flex flex-row w-full h-full">
+                        <Sidebar />
+                        <div className="flex flex-col w-full">
+                            <Header />
+                            <main className="flex-1 overflow-y-hidden">{children}</main>
+                        </div>
+                    </div>
                 </Providers>
             </body>
         </html>
