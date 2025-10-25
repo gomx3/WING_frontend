@@ -1,0 +1,20 @@
+/* 전체 적용 */
+::-webkit-scrollbar {
+    width: 12px; /* 세로 스크롤바 폭 */
+    height: 12px; /* 가로 스크롤바 높이 */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 트랙 색 */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d6d3d1;
+    border-radius: 12px;
+    border: 3px solid #f1f1f1; /* track 색과 같은 테두리 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

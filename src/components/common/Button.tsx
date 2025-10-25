@@ -10,9 +10,9 @@ interface ButtonProps {
 
 export const Button = ({ label, size = 'md', variant = 'primary', onClick, className }: ButtonProps) => {
     const sizeClasses: Record<typeof size, string> = {
-        sm: 'rounded-[3px] px-2 py-1 text-[0.8rem]',
-        md: 'rounded-[4px] px-3 py-1 text-[0.875rem]',
-        lg: 'rounded-[0.375rem] px-4 py-2 text-[0.925rem] tablet:text-[1rem]',
+        sm: 'px-[0.625rem] py-[0.25rem] py-1 text-[0.8rem]',
+        md: 'rounded-[0.5rem] px-[0.625rem] py-1 text-[0.875rem]',
+        lg: 'rounded-[0.725rem] px-4 py-2 text-[0.925rem] tablet:text-[1rem]',
     }
 
     const variantClasses: Record<typeof variant, string> = {
@@ -25,7 +25,7 @@ export const Button = ({ label, size = 'md', variant = 'primary', onClick, class
         <button
             onClick={onClick}
             className={clsx(
-                'flex justify-center items-center font-medium cursor-pointer transition-colors duration-200 ease-in',
+                'flex justify-center items-center font-medium cursor-pointer transition-colors duration-100 ease-in whitespace-nowrap',
                 sizeClasses[size],
                 variantClasses[variant],
                 className
