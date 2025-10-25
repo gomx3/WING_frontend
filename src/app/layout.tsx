@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko">
-            <body className={`${pretendard.variable} antialiased flex flex-col h-screen overflow-y-hidden`}>
+            <body className={`${pretendard.variable} antialiased flex flex-col h-screen`}>
                 <Providers>
                     <div className="flex flex-row w-full h-full">
                         <Sidebar />
