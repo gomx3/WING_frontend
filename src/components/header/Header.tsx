@@ -2,10 +2,9 @@
 
 import { useState } from 'react'
 import { HeaderDesktop } from './HeaderDesktop'
-// import { HeaderMobile } from './HeaderMobile'
 import { User } from '@/types/user'
-import { LoginModal } from './LoginModal'
 import { useUserStore } from '@/stores/userStore'
+import { LoginModal } from '../auth'
 
 export interface HeaderProps {
     user?: User

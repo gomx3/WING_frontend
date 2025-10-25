@@ -27,3 +27,10 @@ export function formatRelativeTime(date: string | number | Date, isKST: boolean 
     if (minutes > 0) return `${minutes}분 전`
     return '방금 전'
 }
+
+export const truncateMiddle = (text: string, headChars: number, tailChars: number) => {
+    if (text.length <= headChars + tailChars) return text
+    const head = text.slice(0, headChars)
+    const tail = text.slice(-tailChars)
+    return `${head}...${tail}`
+}

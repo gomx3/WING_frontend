@@ -28,8 +28,8 @@ export const ArticlePanel = () => {
             <hr className="border-neutral-200" />
 
             <div className="space-y-4">
-                {ARTICLES.map((article, idx) => (
-                    <ArticleItem key={idx} article={article} />
+                {ARTICLES.map((article) => (
+                    <ArticleItem key={article.id} article={article} />
                 ))}
             </div>
         </div>

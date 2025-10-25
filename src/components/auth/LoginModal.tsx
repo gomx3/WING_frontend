@@ -7,10 +7,10 @@ interface LoginModalProps {
     onLogin: () => void
 }
 
-const SignupLink = (
+const SignupLink = ({ onClose }: { onClose: () => void }) => (
     <p className="font-medium text-neutral-600">
         아직 회원이 아니신가요?{' '}
-        <Link href="/auth/signup" className="font-bold border-b border-primary-500 text-primary-500">
+        <Link href="/auth/signup" onClick={onClose} className="font-bold border-b border-primary-500 text-primary-500">
             가입하기
         </Link>
     </p>
@@ -22,7 +22,7 @@ export const LoginModal = ({ onClose, onLogin }: LoginModalProps) => {
             title="로그인"
             description="로그인하여 내 주식 맞춤 검색을 해보세요!"
             onClose={onClose}
-            footerContent={SignupLink}
+            footerContent={<SignupLink onClose={onClose} />}
         >
             <div className="flex flex-col gap-2">
                 <Input

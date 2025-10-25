@@ -1,5 +1,5 @@
 import { Article } from '@/types/articles'
-import { formatRelativeTime } from '@/utils/format'
+import { formatRelativeTime, truncateMiddle } from '@/utils/format'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -8,13 +8,6 @@ interface ArticleItemProps {
 }
 
 export const ArticleItem = ({ article }: ArticleItemProps) => {
-    const truncateMiddle = (text: string, headChars: number, tailChars: number) => {
-        if (text.length <= headChars + tailChars) return text
-        const head = text.slice(0, headChars)
-        const tail = text.slice(-tailChars)
-        return `${head}...${tail}`
-    }
-
     return (
         <Link
             href={article.link}
