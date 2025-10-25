@@ -42,17 +42,6 @@ body {
     --color-primary-800: #fde6e9;
     --color-primary-900: #feeef0;
 
-    --color-white-50: #4f4f4f;
-    --color-white-100: #666666;
-    --color-white-200: #888888;
-    --color-white-300: #aaaaaa;
-    --color-white-400: #b6b6b6;
-    --color-white-500: #cccccc;
-    --color-white-600: #e3e3e3;
-    --color-white-700: #f6f6f6;
-    --color-white-800: #fbfbfb;
-    --color-white-900: #fcfcfc;
-
     --color-surface: var(--color-white-50);
     --color-surface-elevate-l1: var(--color-white-50);
     --color-surface-elevate-l2: var(--color-white-100);

@@ -36,7 +36,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         return (
             <div>
                 {label && (
-                    <label htmlFor={props.id || props.name} className="block mb-1 text-[0.875rem] text-white-200">
+                    <label htmlFor={props.id || props.name} className="block mb-1 text-[0.875rem] text-neutral-500">
                         {label}
                     </label>
                 )}

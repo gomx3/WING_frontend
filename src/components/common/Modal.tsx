@@ -59,7 +59,7 @@ const Modal = ({
                 onClick={(e) => e.stopPropagation()}
                 className={`
                     relative flex flex-col min-w-[18rem] tablet:min-w-[24rem] desktop:min-w-[30rem]
-                    space-y-4 tablet:space-y-6 bg-white-800 p-6 rounded-[1rem] border border-white-600
+                    space-y-4 tablet:space-y-6 bg-neutral-50 p-6 rounded-[1rem] border border-neutral-200
                     modal-animation ${className}
                 `}
             >

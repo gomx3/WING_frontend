@@ -16,8 +16,8 @@ export const Button = ({ label, size = 'md', variant = 'primary', onClick, class
     }
 
     const variantClasses: Record<typeof variant, string> = {
-        primary: 'bg-primary-600 text-white-900 border border-primary-600 hover:bg-primary-500',
-        secondary: 'bg-white-700 text-foreground border border-white-400 hover:bg-white-600',
+        primary: 'bg-primary-600 text-neutral-50 border border-primary-600 hover:bg-primary-500',
+        secondary: 'bg-neutral-300 text-foreground border border-neutral-700 hover:bg-neutral-400',
         outline: 'bg-transparent text-primary-500 border border-primary-500 hover:bg-primary-50',
     }
 

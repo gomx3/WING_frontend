@@ -2,7 +2,7 @@ import { Button, Input } from '../common'
 
 export const SignupForm = () => {
     return (
-        <form className="relative flex flex-col w-[28rem] space-y-4 bg-white-800 p-6 rounded-[1rem] border border-white-600">
+        <form className="relative flex flex-col w-[28rem] space-y-4 bg-neutral-50 p-6 rounded-[1rem] border border-neutral-200">
             <Input label="이름" size="lg" variant="secondary" id="name" placeholder="김개미" />
             <Input
                 label="이메일"
