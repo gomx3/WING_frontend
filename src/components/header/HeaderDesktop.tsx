@@ -9,16 +9,20 @@ import Link from 'next/link'
 import { SearchBar } from './SearchBar'
 import Image from 'next/image'
 import { useAuthStore } from '@/stores/authStore'
+import { AuthSkeleton } from './AuthSkeleton'
 
 export const HeaderDesktop = ({ onLogin, onLogout }: HeaderProps) => {
     const [showDropdown, setShowDropdown] = useState(false)
+    const [hasMounted, setHasMounted] = useState(false)
 
     const accessToken = useAuthStore((state) => state.accessToken)
     const isLoggedIn = Boolean(accessToken)
 
-    const handleProfileClick = () => setShowDropdown((prev) => !prev)
-
     const dropdownRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        setHasMounted(true)
+    }, [])
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -41,10 +45,14 @@ export const HeaderDesktop = ({ onLogin, onLogout }: HeaderProps) => {
 
             <div className="flex flex-row items-center gap-3">
                 <SearchBar />
-                {isLoggedIn ? (
+                {!hasMounted ? (
+                    // 1. 서버 렌더링 + 클라이언트 Hydration 진행 시 로딩 스켈레톤 UI
+                    <AuthSkeleton />
+                ) : isLoggedIn ? (
+                    // 2-1. Hydration 완료 + 로그인 상태
                     <div className="relative flex flex-row items-center gap-3">
                         <div
-                            onClick={handleProfileClick}
+                            onClick={() => setShowDropdown((p) => !p)}
                             className="flex flex-row justify-center items-center cursor-pointer gap-1"
                         >
                             <button className="flex justify-center items-center w-9 aspect-square rounded-full border border-neutral-300 bg-neutral-200 cursor-pointer">
@@ -52,10 +60,10 @@ export const HeaderDesktop = ({ onLogin, onLogout }: HeaderProps) => {
                             </button>
                             <ChevronDown className="size-4 text-neutral-400" />
                         </div>
-
                         {showDropdown && <UserDropdown onLogout={onLogout} showDropdown={showDropdown} />}
                     </div>
                 ) : (
+                    // 2-2. Hydration 완료 + 로그아웃 상태
                     <div className="flex flex-row items-center gap-3">
                         <Button label="로그인" onClick={onLogin} />
                     </div>

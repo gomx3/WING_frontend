@@ -4,8 +4,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Button, Input } from '../common'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { postSignup } from '@/api/auth'
 import { useAuthStore } from '@/stores/authStore'
+import { useRouter } from 'next/navigation'
 
 const signupSchema = z
     .object({
@@ -27,7 +27,8 @@ const signupSchema = z
 type FormFields = z.infer<typeof signupSchema>
 
 export const SignupForm = () => {
-    const openSigninModal = useAuthStore((state) => state.openSigninModal)
+    const signup = useAuthStore((state) => state.signup)
+    const router = useRouter()
 
     const {
         register,
@@ -46,14 +47,8 @@ export const SignupForm = () => {
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { confirmPassword, ...rest } = data
-
-        try {
-            const response = await postSignup(rest)
-            console.log(response)
-            openSigninModal()
-        } catch (error) {
-            console.error(error)
-        }
+        const id = await signup(rest)
+        if (id) router.push('/')
     }
 
     return (

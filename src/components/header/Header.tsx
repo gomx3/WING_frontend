@@ -31,12 +31,16 @@ export interface HeaderProps {
 
 export const Header = () => {
     const [showLoginModal, setShowLoginModal] = useState(false)
+    const [failError, setFailError] = useState<string | null>(null)
 
     const handleLoginClick = () => {
         setShowLoginModal(true)
     }
 
-    const handleLoginClose = () => setShowLoginModal(false)
+    const handleLoginClose = () => {
+        setShowLoginModal(false)
+        setFailError(null)
+    }
 
     const login = useAuthStore((state) => state.login)
     const logout = useAuthStore((state) => state.logout)
@@ -51,8 +55,14 @@ export const Header = () => {
     })
 
     const onLogin = handleSubmit(async (data) => {
-        await login(data)
-        handleLoginClose()
+        try {
+            setFailError(null)
+            await login(data)
+            handleLoginClose()
+        } catch (error) {
+            console.error('[Login Failed]', error)
+            setFailError('아이디 또는 비밀번호가 올바르지 않습니다.')
+        }
     })
 
     return (
@@ -68,6 +78,7 @@ export const Header = () => {
                     isValid={isValid}
                     onClose={handleLoginClose}
                     onLogin={onLogin}
+                    failError={failError}
                 />
             )}
         </>

@@ -1,13 +1,14 @@
-import { postSignin } from '@/api/auth'
-import { LOCAL_STORAGE_KEY } from '@/constants/key'
-import { SigninDto } from '@/types/auth'
+import { postSignin, postSignup } from '@/api/auth'
+import { SigninDto, SignupDto } from '@/types/auth'
 import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 interface AuthState {
     accessToken: string | null
     name: string | null
-    login: (signinData: SigninDto) => Promise<void>
+    login: (body: SigninDto) => Promise<void>
     logout: () => Promise<void>
+    signup: (body: SignupDto) => Promise<string>
 
     showSigninModal: boolean
     openSigninModal: () => void
@@ -15,33 +16,50 @@ interface AuthState {
     toggleSigninModal: () => void
 }
 
-export const useAuthStore = create<AuthState>((set) => {
-    return {
-        accessToken: typeof window !== 'undefined' ? localStorage.getItem(LOCAL_STORAGE_KEY.AT) : null,
-        name: null,
-        login: async (signinData: SigninDto) => {
-            try {
-                const res = await postSignin(signinData)
-                const token = res.accessToken
-                if (token) {
-                    localStorage.setItem(LOCAL_STORAGE_KEY.AT, token)
-                    set({ accessToken: token, name: signinData.id })
+export const useAuthStore = create<AuthState>()(
+    persist(
+        (set) => ({
+            accessToken: null,
+            name: null,
+            login: async (body: SigninDto) => {
+                try {
+                    const { accessToken } = await postSignin(body)
+                    if (accessToken) {
+                        set({ accessToken: accessToken, name: body.id })
+                    }
+                } catch (error) {
+                    console.log('[authStore] Login ...', error)
+                    throw error
                 }
-            } catch (error) {
-                console.log('[Error] Login ...', error)
-            }
-        },
-        logout: async () => {
-            localStorage.removeItem(LOCAL_STORAGE_KEY.AT)
-            set({ accessToken: null, name: null })
-        },
+            },
+            logout: async () => {
+                set({ accessToken: null, name: null })
+            },
+            signup: async (body: SignupDto) => {
+                try {
+                    const data = await postSignup(body)
+                    return data
+                } catch (error) {
+                    console.error('[authStore] Signup ...', error)
+                    throw error
+                }
+            },
 
-        showSigninModal: false,
-        openSigninModal: () => set({ showSigninModal: true }),
-        closeSigninModal: () => set({ showSigninModal: false }),
-        toggleSigninModal: () =>
-            set((state) => ({
-                showSigninModal: !state.showSigninModal,
-            })),
-    }
-})
+            showSigninModal: false,
+            openSigninModal: () => set({ showSigninModal: true }),
+            closeSigninModal: () => set({ showSigninModal: false }),
+            toggleSigninModal: () =>
+                set((state) => ({
+                    showSigninModal: !state.showSigninModal,
+                })),
+        }),
+        {
+            name: 'auth-storage',
+            storage: createJSONStorage(() => localStorage),
+            partialize: (state) => ({
+                accessToken: state.accessToken,
+                name: state.name,
+            }),
+        }
+    )
+)

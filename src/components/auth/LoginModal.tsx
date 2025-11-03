@@ -15,6 +15,7 @@ interface LoginModalProps {
     isValid: boolean
     onClose: () => void
     onLogin: () => void
+    failError: string | null
 }
 
 const SignupLink = ({ onClose }: { onClose: () => void }) => (
@@ -26,7 +27,7 @@ const SignupLink = ({ onClose }: { onClose: () => void }) => (
     </p>
 )
 
-export const LoginModal = ({ register, errors, isValid, onClose, onLogin }: LoginModalProps) => {
+export const LoginModal = ({ register, errors, isValid, onClose, onLogin, failError }: LoginModalProps) => {
     return (
         <Modal
             title="로그인"
@@ -58,6 +59,8 @@ export const LoginModal = ({ register, errors, isValid, onClose, onLogin }: Logi
                     />
                     {errors.password && <span>{errors.password.message}</span>}
                 </div>
+
+                {failError && <p className="text-sm text-red-500">{failError}</p>}
 
                 <Button type="submit" disabled={!isValid} label="확인하기" size="lg" />
             </form>
