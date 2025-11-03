@@ -8,9 +8,13 @@ import { Button } from '../common'
 import Link from 'next/link'
 import { SearchBar } from './SearchBar'
 import Image from 'next/image'
+import { useAuthStore } from '@/stores/authStore'
 
-export const HeaderDesktop = ({ user, onLogin, onLogout }: HeaderProps) => {
+export const HeaderDesktop = ({ onLogin, onLogout }: HeaderProps) => {
     const [showDropdown, setShowDropdown] = useState(false)
+
+    const accessToken = useAuthStore((state) => state.accessToken)
+    const isLoggedIn = Boolean(accessToken)
 
     const handleProfileClick = () => setShowDropdown((prev) => !prev)
 
@@ -37,7 +41,7 @@ export const HeaderDesktop = ({ user, onLogin, onLogout }: HeaderProps) => {
 
             <div className="flex flex-row items-center gap-3">
                 <SearchBar />
-                {user ? (
+                {isLoggedIn ? (
                     <div className="relative flex flex-row items-center gap-3">
                         <div
                             onClick={handleProfileClick}
