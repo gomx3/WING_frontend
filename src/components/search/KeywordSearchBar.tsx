@@ -6,7 +6,7 @@ import { RecommendedKeywords } from './RecommendedKeywords'
 import { KeywordsCurrent } from './KeywordsCurrent'
 import { MAX_KEYWORDS } from '@/constants/common'
 import { useSearchStore } from '@/stores/searchStore'
-import useGetTreeGraph from '@/hooks/useGetTreeGraph'
+import useGetTreeGraph from '@/hooks/queries/useGetTreeGraph'
 
 /**
  * 메인 키워드 1개와 서브 키워드 N개를 입력받는 검색 바 UI

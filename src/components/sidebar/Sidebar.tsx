@@ -1,11 +1,19 @@
 'use client'
 
 import { ChartArea, ChevronsRight } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SlideMenu } from './SlideMenu'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 export const Sidebar = () => {
+    const isDesktop = useMediaQuery('(min-width: 1024px)')
+
     const [showMenu, setShowMenu] = useState(false)
+
+    useEffect(() => {
+        if (isDesktop) setShowMenu(true)
+        else setShowMenu(false)
+    }, [isDesktop])
 
     const toggleMenu = () => setShowMenu(!showMenu)
 

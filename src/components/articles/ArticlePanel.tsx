@@ -3,7 +3,8 @@
 import { useGraphStore } from '@/stores/graphStore'
 import { ArticleItem } from './ArticleItem'
 import { ArticlePanelPlaceholder } from './ArticlePlaceholder'
-import useGetNews from '@/hooks/useGetNews'
+import useGetNews from '@/hooks/queries/useGetNews'
+import { useMemo } from 'react'
 
 export const ArticlePanel = () => {
     // 1. [수정] graphData 대신 selectedLink를 가져옴
@@ -13,7 +14,25 @@ export const ArticlePanel = () => {
     // const { data: newsData, isLoading } = useGetNews(selectedLink?.source ?? null, selectedLink?.target ?? null)
     const { data: newsData, isLoading } = useGetNews()
 
-    // 3. [수정] 3가지 상태에 따라 분기 처리
+    // 3. [추가] newsData를 selectedLink 기준으로 필터링 (useMemo 사용)
+    const filteredNews = useMemo(() => {
+        // 데이터가 없거나, 링크가 선택되지 않았으면 빈 배열 반환
+        if (!newsData || !selectedLink) {
+            return []
+        }
+
+        const { source, target } = selectedLink
+
+        // 백엔드 데이터를 기준으로 필터링
+        return newsData.filter((article) => {
+            // 정방향 체크 (source -> target)
+            const matchForward = article.startPoint === source && article.endPoint === target
+            // 역방향 체크 (target -> source)
+            const matchBackward = article.startPoint === target && article.endPoint === source
+
+            return matchForward || matchBackward
+        })
+    }, [newsData, selectedLink]) // newsData나 selectedLink가 바뀔 때만 재실행
 
     // Case 1: 링크가 선택되지 않았을 때
     if (!selectedLink) {
@@ -44,12 +63,7 @@ export const ArticlePanel = () => {
             <hr className="border-neutral-200" />
 
             <div className="space-y-4">
-                {newsData &&
-                    newsData.map((article) => (
-                        // ApiNews 타입을 ArticleItem이 받는 타입으로 변환 필요
-                        // 여기서는 article 객체가 id prop을 가지고 있다고 가정
-                        <ArticleItem key={article.id} article={article} />
-                    ))}
+                {filteredNews && filteredNews.map((article) => <ArticleItem key={article.id} article={article} />)}
             </div>
         </div>
     )
