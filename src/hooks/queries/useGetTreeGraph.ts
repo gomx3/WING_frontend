@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 
 export default function useGetTreeGraph({ mainKeyword, subKeywords, enabled }: GetGraphDto & { enabled: boolean }) {
     return useQuery({
-        queryKey: ['graph'],
+        queryKey: ['graph', mainKeyword, [...subKeywords].sort()],
         queryFn: () => getTreeGraph({ mainKeyword, subKeywords }),
         enabled: !!enabled,
         staleTime: 10 * 60 * 1000,

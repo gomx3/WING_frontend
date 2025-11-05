@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { X } from 'lucide-react'
 import Image from 'next/image'
+import { InvestModeController } from './InvestModeController'
 
 interface SlideMenuProps {
     showMenu: boolean
@@ -12,7 +13,7 @@ export const SlideMenu = ({ showMenu, toggleMenu }: SlideMenuProps) => {
         <div
             className={clsx(
                 'flex-shrink-0 overflow-hidden bg-neutral-100 border-neutral-200  whitespace-nowrap',
-                showMenu ? 'border-r transition-[width] duration-300 w-[16rem] px-4 py-6' : 'w-0 p-0'
+                showMenu ? 'border-r transition-[width] duration-300 w-[16rem] h-full px-4 py-6' : 'w-0 p-0'
             )}
         >
             <div className="w-full flex flex-row justify-between">
@@ -27,8 +28,12 @@ export const SlideMenu = ({ showMenu, toggleMenu }: SlideMenuProps) => {
                 </button>
             </div>
 
+            {/* 종목 투자 모드 (임시) */}
+            <InvestModeController showMenu={showMenu} />
+            {/* ------ */}
+
             <div className={clsx('flex flex-1 justify-center items-center h-full', showMenu ? 'block' : 'hidden')}>
-                <div className="flex flex-col justify-center items-center pb-3 gap-4">
+                <div className="flex flex-col justify-center items-center pb-28 gap-4">
                     <div className="p-[0.543rem] rounded-full bg-neutral-200">
                         <Image src="/assets/document.svg" alt="문서 아이콘" width={48} height={48} />
                     </div>

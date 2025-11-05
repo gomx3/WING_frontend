@@ -13,7 +13,8 @@ interface D3GraphViewProps {
 export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
     const svgRef = useRef<SVGSVGElement>(null)
 
-    const setSelectedLink = useGraphStore((state) => state.setSelectedLink)
+    const isGraphLoading = useGraphStore((state) => state.isGraphLoading)
+    const isInvestmentMode = useGraphStore((state) => state.isInvestmentMode)
 
     const [graphData, setGraphData] = useState<GraphData>({ nodes: [], links: [] })
 
@@ -93,16 +94,20 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             .append('line')
             .style('stroke-width', (d) => d.weight * 4)
             .style('stroke', (d) => {
-                const sentiment = d.sentiment ?? 0
-                if (sentiment > 0.1) return 'rgba(240, 86, 109, 0.5)' // 긍정
-                if (sentiment < -0.1) return 'rgba(67, 83, 244, 0.5)' // 부정
+                if (isInvestmentMode) {
+                    const sentiment = d.sentiment ?? 0
+                    if (sentiment > 0.1) return 'rgba(240, 86, 109, 0.5)' // 긍정
+                    if (sentiment < -0.1) return 'rgba(67, 83, 244, 0.5)' // 부정
+                }
                 return 'rgba(0,0,0,0.15)'
             })
             .style('cursor', 'pointer')
             .on('click', (event, d) => {
                 const sourceId = (d.source as MyNode).id
                 const targetId = (d.target as MyNode).id
-                setSelectedLink({ source: sourceId, target: targetId })
+                useGraphStore.setState({
+                    selectedLink: { source: sourceId, target: targetId },
+                })
             })
 
         const nodeGroup = g
@@ -135,7 +140,9 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
         nodeGroup
             .append('circle')
             .attr('r', (d) => Math.sqrt(d.importance * 100 + 700)) // 노드 크기 조정
-            .attr('fill', '#e3e3e3')
+            .attr('fill', '#F6F6F6')
+            .attr('stroke', '#E3E3E3')
+            .attr('stroke-width', 0.5)
 
         nodeGroup
             .append('text')
@@ -197,11 +204,17 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
         return () => {
             simulation.stop()
         }
-    }, [graphData, setSelectedLink])
+    }, [graphData, isInvestmentMode])
 
     return (
         <div className="absolute top-0 left-0 w-full h-full">
             <svg ref={svgRef} style={{ width: '100%', height: '100%', cursor: 'grab' }} />
+
+            {isGraphLoading && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center backdrop-blur-sm">
+                    <div className="animate-spin h-10 w-10 rounded-full border-4 border-primary-600 border-t-transparent" />
+                </div>
+            )}
         </div>
     )
 }
