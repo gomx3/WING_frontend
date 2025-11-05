@@ -25,8 +25,9 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            useAuthStore.getState().logout()
-            useAuthStore.getState().openSigninModal()
+            const authStore = useAuthStore.getState()
+            authStore.logout()
+            authStore.openSigninModal()
         }
 
         return Promise.reject(error)
