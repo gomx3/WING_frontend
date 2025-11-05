@@ -1,7 +1,7 @@
-import { useUserStore } from '@/stores/userStore'
 import { DropdownItem } from './DropdownItem'
 import { LogOut, Settings, UserRound } from 'lucide-react'
 import * as motion from 'motion/react-client'
+import { useAuthStore } from '@/stores/authStore'
 
 interface UserDropdownProps {
     onLogout?: () => void
@@ -9,11 +9,13 @@ interface UserDropdownProps {
 }
 
 export const UserDropdown = ({ onLogout, showDropdown }: UserDropdownProps) => {
-    const user = useUserStore((state) => state.user)
+    const accessToken = useAuthStore((state) => state.accessToken)
+    const name = useAuthStore((state) => state.name)
+    const isLoggedIn = Boolean(accessToken)
 
     return (
         <>
-            {showDropdown && user && (
+            {showDropdown && isLoggedIn && (
                 <motion.div
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -25,7 +27,9 @@ export const UserDropdown = ({ onLogout, showDropdown }: UserDropdownProps) => {
                         <div className="flex justify-center items-center w-12 aspect-square rounded-full border border-neutral-300 bg-neutral-200">
                             <UserRound className="text-neutral-400" size="32" />
                         </div>
-                        <p className="text-[1rem] text-center font-bold text-neutral-700">{user.name}님 안녕하세요</p>
+                        <p className="text-[1rem] text-center font-bold text-neutral-700 whitespace-pre-line">
+                            {name} 님{'\n'} 안녕하세요
+                        </p>
                     </div>
                     <ul className="flex flex-col">
                         <DropdownItem label="설정" Icon={Settings} />
