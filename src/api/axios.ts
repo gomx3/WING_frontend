@@ -19,3 +19,17 @@ axiosInstance.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 )
+
+// 응답 인터셉터
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            const authStore = useAuthStore.getState()
+            authStore.logout()
+            authStore.openSigninModal()
+        }
+
+        return Promise.reject(error)
+    }
+)

@@ -8,11 +8,14 @@ import { MAX_KEYWORDS } from '@/constants/common'
 import { useSearchStore } from '@/stores/searchStore'
 import useGetTreeGraph from '@/hooks/queries/useGetTreeGraph'
 import { useGraphStore } from '@/stores/graphStore'
+import { useAuthStore } from '@/stores/authStore'
 
 export const KeywordSearchBar = () => {
     const [inputValue, setInputValue] = useState('')
 
-    const { keywords, setKeywords } = useSearchStore()
+    const accessToken = useAuthStore((state) => state.accessToken)
+    const keywords = useSearchStore((state) => state.keywords)
+    const setKeywords = useSearchStore((state) => state.setKeywords)
     const setIsGraphLoading = useGraphStore((state) => state.setIsGraphLoading)
 
     const inputRef = useRef<HTMLInputElement>(null)
@@ -50,6 +53,11 @@ export const KeywordSearchBar = () => {
     }
 
     const handleSearch = async () => {
+        if (!accessToken) {
+            alert('로그인이 필요한 기능입니다.')
+            return
+        }
+
         if (keywords.length > 0) {
             setIsGraphLoading(true)
             await refetch()

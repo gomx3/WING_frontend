@@ -28,7 +28,7 @@ export const useAuthStore = create<AuthState>()(
                         set({ accessToken: accessToken, name: body.id })
                     }
                 } catch (error) {
-                    console.log('[authStore] Login ...', error)
+                    console.error('[authStore] Login ...', error)
                     throw error
                 }
             },
