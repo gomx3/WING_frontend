@@ -1,13 +1,24 @@
 import { getTreeGraph } from '@/api/graph'
 import { GetGraphDto } from '@/types/graph'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useGraphStore } from '@/stores/graphStore'
 
-export default function useGetTreeGraph({ mainKeyword, subKeywords, enabled }: GetGraphDto & { enabled: boolean }) {
-    return useQuery({
-        queryKey: ['graph', mainKeyword, [...subKeywords].sort()],
-        queryFn: () => getTreeGraph({ mainKeyword, subKeywords }),
-        enabled: !!enabled,
-        staleTime: 10 * 60 * 1000,
-        gcTime: 15 * 60 * 1000,
+export default function useGetTreeGraph() {
+    const queryClient = useQueryClient()
+    const setIsGraphLoading = useGraphStore((state) => state.setIsGraphLoading)
+
+    return useMutation({
+        mutationFn: (dto: GetGraphDto) => getTreeGraph(dto),
+        onMutate: () => {
+            setIsGraphLoading(true)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['graph', 'nodes'] })
+            queryClient.invalidateQueries({ queryKey: ['graph', 'edges'] })
+            queryClient.invalidateQueries({ queryKey: ['graph', 'news'] })
+        },
+        onSettled: () => {
+            setIsGraphLoading(false)
+        },
     })
 }
