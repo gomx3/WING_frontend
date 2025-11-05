@@ -144,7 +144,7 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             .attr('y', 0)
             .attr('dy', '.35em')
             .style('text-anchor', 'middle')
-            .style('font-size', '14px')
+            .style('font-size', '16px')
             .style('font-family', 'font-pretendard, sans-serif')
             .style('fill', 'black')
             .style('pointer-events', 'none')
