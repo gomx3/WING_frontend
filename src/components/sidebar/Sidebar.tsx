@@ -1,11 +1,20 @@
 'use client'
 
 import { ChartArea, ChevronsRight } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SlideMenu } from './SlideMenu'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
+import clsx from 'clsx'
 
 export const Sidebar = () => {
+    const isDesktop = useMediaQuery('(min-width: 1024px)')
+
     const [showMenu, setShowMenu] = useState(false)
+
+    useEffect(() => {
+        if (isDesktop) setShowMenu(true)
+        else setShowMenu(false)
+    }, [isDesktop])
 
     const toggleMenu = () => setShowMenu(!showMenu)
 
@@ -13,7 +22,12 @@ export const Sidebar = () => {
         <div className="flex h-screen">
             <aside className="flex flex-col items-center w-[3.785rem] px-2 py-6 gap-8 bg-neutral-100 border-r border-neutral-200">
                 <button onClick={toggleMenu} className="text-neutral-400 cursor-pointer">
-                    <ChevronsRight />
+                    <ChevronsRight
+                        className={clsx(
+                            'transition-transform duration-300 ease-in-out', // 💡 애니메이션 적용
+                            showMenu && 'rotate-180'
+                        )}
+                    />
                 </button>
 
                 <button onClick={toggleMenu} className="space-y-1">

@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         const iconBaseClass = 'absolute top-1/2 -translate-y-1/2 text-neutral-500 pointer-events-none'
 
         return (
-            <div>
+            <div className="w-full min-w-0">
                 {label && (
                     <label htmlFor={props.id || props.name} className="block mb-1 text-[0.875rem] text-neutral-500">
                         {label}
