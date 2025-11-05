@@ -1,47 +1,44 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useGraphStore } from '@/stores/graphStore'
 import { Input } from '../common'
 import { RecommendedKeywords } from './RecommendedKeywords'
 import { KeywordsCurrent } from './KeywordsCurrent'
 import { MAX_KEYWORDS } from '@/constants/common'
 import { useSearchStore } from '@/stores/searchStore'
+import useGetTreeGraph from '@/hooks/useGetTreeGraph'
 
+/**
+ * 메인 키워드 1개와 서브 키워드 N개를 입력받는 검색 바 UI
+ * - 첫 번째 입력된 키워드가 '메인 키워드'
+ * - 이후 키워드들은 '서브 키워드'로 취급
+ * - 키워드 변경 시 useGetTreeGraph 훅을 통해 Graph Data Fetch 수행
+ * - 키워드 상태는 searchStore로 전역 관리
+ *
+ * @component
+ *
+ * @example
+ * <KeywordSearchBar />
+ */
 export const KeywordSearchBar = () => {
     const [inputValue, setInputValue] = useState('')
 
     const { keywords, setKeywords } = useSearchStore()
-    const { setGraphData, setIsLoading } = useGraphStore()
 
     const inputRef = useRef<HTMLInputElement>(null)
+
+    const mainKeyword = keywords.length > 0 ? keywords[0] : null
+    const subKeywords = keywords.length > 1 ? keywords.slice(1) : []
+
+    const { data: treeGraph, isLoading: isGraphLoading } = useGetTreeGraph({
+        mainKeyword: mainKeyword || '',
+        subKeywords: subKeywords,
+        enabled: !!mainKeyword,
+    })
 
     useEffect(() => {
         inputRef.current?.focus()
     }, [])
-
-    useEffect(() => {
-        const fetchGraphData = async () => {
-            if (keywords.length === 0) {
-                setGraphData({ nodes: [], links: [] })
-                return
-            }
-
-            setIsLoading(true)
-            try {
-                const response = await fetch(`/api/graph?keywords=${keywords.join(',')}`)
-                const data = await response.json()
-                setGraphData(data)
-            } catch (error) {
-                console.error('Failed to fetch graph data:', error)
-                setGraphData({ nodes: [], links: [] }) // 에러 발생 시 데이터 초기화
-            } finally {
-                setIsLoading(false)
-            }
-        }
-
-        fetchGraphData()
-    }, [keywords, setGraphData, setIsLoading])
 
     const addKeyword = () => {
         const newKeyword = inputValue.trim()

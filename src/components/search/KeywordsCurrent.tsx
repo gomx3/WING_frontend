@@ -6,6 +6,18 @@ interface KeywordsCurrentProps {
     onRemove: (keyword: string) => void
 }
 
+/**
+ * 선택된 현재 키워드 리스트를 보여주는 컴포넌트
+ * - 상단에 (현재 키워드 개수 / 최대 키워드 개수)로 표시함
+ * - 각각의 키워드는 Tag 컴포넌트로 렌더링되고 삭제(onRemove) 가능
+ *
+ * @component
+ *
+ * @prop {function(string):void} onRemove - 개별 키워드 Remove 버튼 클릭 시 호출되는 handler
+ *
+ * @example
+ * <KeywordsCurrent onRemove={(keyword) => handleRemove(keyword)} />
+ */
 export const KeywordsCurrent = ({ onRemove }: KeywordsCurrentProps) => {
     const keywords = useSearchStore((state) => state.keywords)
 
