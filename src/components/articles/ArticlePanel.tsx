@@ -44,14 +44,16 @@ export const ArticlePanel = () => {
                     {`${selectedLink.source}, ${selectedLink.target} 관련 기사`}
                 </h3>
                 <p className="text-[0.875rem] tracking-[-0.45px] text-neutral-600">
-                    {`최근 3개월 동안 ${newsData?.length ?? 0}개의 기사에서 함께 언급되었습니다.`}
+                    {`최근 3개월 동안 ${filteredNews?.length ?? 0}개의 기사에서 함께 언급되었습니다.`}
                 </p>
             </div>
 
             <hr className="border-neutral-200" />
 
             <div className="space-y-4">
-                {filteredNews && filteredNews.map((article) => <ArticleItem key={article.id} article={article} />)}
+                {filteredNews.map((article) => (
+                    <ArticleItem key={article.id} article={article} />
+                ))}
             </div>
         </div>
     )

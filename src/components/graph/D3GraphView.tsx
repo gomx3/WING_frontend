@@ -23,7 +23,6 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             id: node.name,
             label: node.name,
             importance: node.weight,
-            sentiment: 0,
         }))
 
         const transformedLinks: MyLink[] = edgesData.map((edge) => ({
@@ -93,18 +92,12 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             .enter()
             .append('line')
             .style('stroke-width', (d) => d.weight * 4)
-            .style('stroke', (d) => {
-                if (isInvestmentMode) {
-                    const sentiment = d.sentiment ?? 0
-                    if (sentiment > 0.1) return 'rgba(240, 86, 109, 0.5)' // 긍정
-                    if (sentiment < -0.1) return 'rgba(67, 83, 244, 0.5)' // 부정
-                }
-                return 'rgba(0,0,0,0.15)'
-            })
+            .style('stroke', 'rgba(0,0,0,0.15)')
             .style('cursor', 'pointer')
             .on('click', (event, d) => {
                 const sourceId = (d.source as MyNode).id
                 const targetId = (d.target as MyNode).id
+
                 useGraphStore.setState({
                     selectedLink: { source: sourceId, target: targetId },
                 })
@@ -172,16 +165,12 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
 
         if (nodes.length === 0) return
 
-        let minX = Infinity,
-            maxX = -Infinity,
-            minY = Infinity,
-            maxY = -Infinity
-        nodes.forEach((n) => {
-            if (n.x! < minX) minX = n.x!
-            if (n.x! > maxX) maxX = n.x!
-            if (n.y! < minY) minY = n.y!
-            if (n.y! > maxY) maxY = n.y!
-        })
+        const xExtent = d3.extent(nodes, (n) => n.x!)
+        const yExtent = d3.extent(nodes, (n) => n.y!)
+        const minX = xExtent[0] ?? 0
+        const maxX = xExtent[1] ?? 0
+        const minY = yExtent[0] ?? 0
+        const maxY = yExtent[1] ?? 0
 
         const graphWidth = maxX - minX
         const graphHeight = maxY - minY
@@ -204,7 +193,27 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
         return () => {
             simulation.stop()
         }
-    }, [graphData, isInvestmentMode])
+    }, [graphData])
+
+    useEffect(() => {
+        if (!svgRef.current || isGraphLoading) {
+            return
+        }
+
+        const svg = d3.select(svgRef.current)
+
+        svg.selectAll<SVGLineElement, MyLink>('.links line')
+            .transition()
+            .duration(300)
+            .style('stroke', (d) => {
+                if (isInvestmentMode) {
+                    const sentiment = d.sentiment ?? 0
+                    if (sentiment > 0.1) return 'rgba(240, 86, 109, 0.5)'
+                    if (sentiment < -0.1) return 'rgba(67, 83, 244, 0.5)'
+                }
+                return 'rgba(0,0,0,0.15)'
+            })
+    }, [isInvestmentMode, isGraphLoading])
 
     return (
         <div className="absolute top-0 left-0 w-full h-full">
