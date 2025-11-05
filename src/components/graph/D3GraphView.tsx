@@ -120,7 +120,7 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             .style('cursor', 'grab')
             .call(
                 d3
-                    .drag<any, MyNode>()
+                    .drag<SVGGElement, MyNode>()
                     .on('start', (event, d) => {
                         if (!event.active) simulation.alphaTarget(0.3).restart()
                         d.fx = d.x

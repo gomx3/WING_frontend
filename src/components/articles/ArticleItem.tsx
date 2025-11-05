@@ -1,4 +1,4 @@
-import { formatRelativeTime, truncateMiddle } from '@/utils/format'
+import { formatRelativeTime } from '@/utils/format'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ApiNews } from '@/types/graph'
