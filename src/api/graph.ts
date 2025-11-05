@@ -16,9 +16,12 @@ export const getNews = async (): Promise<ApiNews[]> => {
     return data
 }
 
-export const getTreeGraph = async (body: GetGraphDto): Promise<GetGraphResponse> => {
+export const getTreeGraph = async ({ mainKeyword, subKeywords }: GetGraphDto): Promise<GetGraphResponse> => {
     const { data } = await axiosInstance.get(`/user/tree/by-keywords`, {
-        params: body,
+        params: {
+            mainKeyword,
+            subKeywords: subKeywords.join(','),
+        },
     })
     return data
 }

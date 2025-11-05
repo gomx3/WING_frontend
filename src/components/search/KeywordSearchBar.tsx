@@ -23,11 +23,7 @@ export const KeywordSearchBar = () => {
     const mainKeyword = keywords.length > 0 ? keywords[0] : null
     const subKeywords = keywords.length > 1 ? keywords.slice(1) : []
 
-    const { isLoading: isGraphLoading, refetch } = useGetTreeGraph({
-        mainKeyword: mainKeyword || '',
-        subKeywords: subKeywords,
-        enabled: false,
-    })
+    const { mutateAsync, isPending } = useGetTreeGraph()
 
     useEffect(() => {
         inputRef.current?.focus()
@@ -53,15 +49,20 @@ export const KeywordSearchBar = () => {
     }
 
     const handleSearch = async () => {
-        if (!accessToken) {
-            alert('로그인이 필요한 기능입니다.')
-            return
-        }
+        if (!accessToken || isPending) return
 
         if (keywords.length > 0) {
             setIsGraphLoading(true)
-            await refetch()
-            setIsGraphLoading(false)
+            try {
+                await mutateAsync({
+                    mainKeyword: mainKeyword || '',
+                    subKeywords: subKeywords,
+                })
+            } catch (error) {
+                console.error('분석 요청 실패:', error)
+            } finally {
+                setIsGraphLoading(false)
+            }
         }
     }
 
@@ -82,11 +83,11 @@ export const KeywordSearchBar = () => {
                 />
 
                 <Button
-                    label={isGraphLoading ? '분석중...' : '분석하기'}
+                    label={isPending ? '분석중...' : '분석하기'}
                     size="lg"
                     onClick={handleSearch}
-                    variant={isGraphLoading ? 'secondary' : 'primary'}
-                    disabled={isGraphLoading || keywords.length === 0}
+                    variant={isPending ? 'secondary' : 'primary'}
+                    disabled={isPending || keywords.length === 0}
                 />
             </div>
 
