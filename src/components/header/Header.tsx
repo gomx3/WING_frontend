@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/authStore'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 
 const loginSchema = z.object({
     id: z
@@ -30,6 +31,8 @@ export interface HeaderProps {
 }
 
 export const Header = () => {
+    const queryClient = useQueryClient()
+
     const [showLoginModal, setShowLoginModal] = useState(false)
     const [failError, setFailError] = useState<string | null>(null)
 
@@ -65,10 +68,15 @@ export const Header = () => {
         }
     })
 
+    const onLogout = async () => {
+        queryClient.clear()
+        await logout()
+    }
+
     return (
         <>
             <header>
-                <HeaderDesktop onLogin={handleLoginClick} onLogout={logout} />
+                <HeaderDesktop onLogin={handleLoginClick} onLogout={onLogout} />
             </header>
 
             {showLoginModal && (
