@@ -6,6 +6,7 @@ import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'next/navigation'
+import { ErrorSpan } from './ErrorSpan'
 
 const signupSchema = z
     .object({
@@ -65,7 +66,7 @@ export const SignupForm = () => {
                 type="text"
                 placeholder="example"
             />
-            {errors.id && <span>{errors.id.message}</span>}
+            {errors.id && errors.id.message && <ErrorSpan message={errors.id.message} />}
 
             <Input
                 {...register('password')}
@@ -76,7 +77,7 @@ export const SignupForm = () => {
                 type="password"
                 placeholder="****"
             />
-            {errors.password && <span>{errors.password.message}</span>}
+            {errors.password && errors.password.message && <ErrorSpan message={errors.password.message} />}
 
             <Input
                 {...register('confirmPassword')}
@@ -87,7 +88,9 @@ export const SignupForm = () => {
                 type="password"
                 placeholder="****"
             />
-            {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
+            {errors.confirmPassword && errors.confirmPassword.message && (
+                <ErrorSpan message={errors.confirmPassword.message} />
+            )}
 
             <Button disabled={!isValid} type="submit" label="제출하기" size="lg" className="mt-4" />
         </form>

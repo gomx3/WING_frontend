@@ -23,9 +23,9 @@ export const useAuthStore = create<AuthState>()(
             name: null,
             login: async (body: SigninDto) => {
                 try {
-                    const { accessToken } = await postSignin(body)
+                    const { accessToken, id } = await postSignin(body)
                     if (accessToken) {
-                        set({ accessToken: accessToken, name: body.id })
+                        set({ accessToken: accessToken, name: id })
                     }
                 } catch (error) {
                     console.error('[authStore] Login ...', error)

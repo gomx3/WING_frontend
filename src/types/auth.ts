@@ -8,4 +8,5 @@ export type SigninDto = Auth
 
 export interface SigninResponse {
     accessToken: string
+    id: string
 }

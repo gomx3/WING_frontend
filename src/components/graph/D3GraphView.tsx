@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import * as d3 from 'd3'
 import { ApiEdge, ApiNode, MyLink, MyNode, GraphData } from '@/types/graph'
 import { useGraphStore } from '@/stores/graphStore'
@@ -16,9 +16,11 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
     const isGraphLoading = useGraphStore((state) => state.isGraphLoading)
     const isInvestmentMode = useGraphStore((state) => state.isInvestmentMode)
 
-    const [graphData, setGraphData] = useState<GraphData>({ nodes: [], links: [] })
+    const graphData = useMemo((): GraphData => {
+        if (!nodesData || !edgesData) {
+            return { nodes: [], links: [] }
+        }
 
-    useEffect(() => {
         const transformedNodes: MyNode[] = nodesData.map((node) => ({
             id: node.name,
             label: node.name,
@@ -32,25 +34,28 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             sentiment: edge.sentiment_score ?? 0,
         }))
 
-        setGraphData({
+        return {
             nodes: transformedNodes,
             links: transformedLinks,
-        })
+        }
     }, [nodesData, edgesData])
 
     useEffect(() => {
-        if (!svgRef.current || graphData.nodes.length === 0) {
+        if (!svgRef.current) {
             return
         }
 
-        const svg = d3.select(svgRef.current)
+        const currentSvgNode = svgRef.current
+        const svg = d3.select(currentSvgNode)
 
-        const width = svgRef.current.clientWidth
-        const height = svgRef.current.clientHeight
+        if (graphData.nodes.length === 0) {
+            return
+        }
+
+        const width = currentSvgNode.clientWidth
+        const height = currentSvgNode.clientHeight
 
         if (width === 0 || height === 0) return
-
-        svg.selectAll('*').remove()
 
         const { nodes, links } = graphData
 
@@ -192,6 +197,7 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
 
         return () => {
             simulation.stop()
+            d3.select(currentSvgNode).selectAll('*').remove()
         }
     }, [graphData])
 
