@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Button, Input } from '../common'
 import Modal from '../common/Modal'
 import { FieldErrors, UseFormRegister } from 'react-hook-form'
+import { ErrorSpan } from './ErrorSpan'
 
 interface LoginModalProps {
     register: UseFormRegister<{
@@ -46,7 +47,7 @@ export const LoginModal = ({ register, errors, isValid, onClose, onLogin, failEr
                         type="text"
                         placeholder="example"
                     />
-                    {errors.id && <span>{errors.id.message}</span>}
+                    {errors.id && errors.id.message && <ErrorSpan message={errors.id.message} />}
 
                     <Input
                         {...register('password')}
@@ -57,7 +58,7 @@ export const LoginModal = ({ register, errors, isValid, onClose, onLogin, failEr
                         type="password"
                         placeholder="****"
                     />
-                    {errors.password && <span>{errors.password.message}</span>}
+                    {errors.password && errors.password.message && <ErrorSpan message={errors.password.message} />}
                 </div>
 
                 {failError && <p className="text-sm text-red-500">{failError}</p>}
