@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import * as d3 from 'd3'
 import { ApiEdge, ApiNode, MyLink, MyNode, GraphData } from '@/types/graph'
 import { useGraphStore } from '@/stores/graphStore'
@@ -45,7 +45,8 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             return
         }
 
-        const svg = d3.select(svgRef.current)
+        const currentSvgNode = svgRef.current
+        const svg = d3.select(currentSvgNode)
 
         svg.selectAll('*').remove()
 
@@ -53,8 +54,8 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             return
         }
 
-        const width = svgRef.current.clientWidth
-        const height = svgRef.current.clientHeight
+        const width = currentSvgNode.clientWidth
+        const height = currentSvgNode.clientHeight
 
         if (width === 0 || height === 0) return
 
@@ -198,7 +199,7 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
 
         return () => {
             simulation.stop()
-            d3.select(svgRef.current).selectAll('*').remove()
+            d3.select(currentSvgNode).selectAll('*').remove()
         }
     }, [graphData])
 
