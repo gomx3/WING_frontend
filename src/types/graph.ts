@@ -11,6 +11,8 @@ export interface MyLink extends LinkObject {
     target: string | MyNode
     weight: number
     sentiment?: number
+    sentimentLabel?: string
+    articleCount: number
 }
 
 export interface GraphData {

@@ -5,8 +5,13 @@ import { KeywordSearch } from '../search'
 import useGetEdges from '@/hooks/queries/useGetEdges'
 import { D3GraphView } from './D3GraphView'
 import { useGraphStore } from '@/stores/graphStore'
+import { ApiNews } from '@/types/graph'
 
-export const WeightGraphPanel = () => {
+interface WeightGraphPanelProps {
+    newsData: ApiNews[] | undefined
+}
+
+export const WeightGraphPanel = ({ newsData }: WeightGraphPanelProps) => {
     const { data: nodesData, isLoading: isNodesLoading, isError: isNodesError } = useGetNodes()
     const { data: edgesData, isLoading: isEdgesLoading, isError: isEdgesError } = useGetEdges()
 
@@ -28,7 +33,9 @@ export const WeightGraphPanel = () => {
                 )}
 
                 {/* Case 2: 로딩 완료 + 데이터 있음 (성공) */}
-                {!isLoading && hasData && <D3GraphView nodesData={nodesData} edgesData={edgesData} />}
+                {!isLoading && hasData && (
+                    <D3GraphView nodesData={nodesData} edgesData={edgesData} newsData={newsData} />
+                )}
 
                 {/* Case 3: 로딩 완료 + "오류" 발생 (isError) */}
                 {!isLoading && isError && (
