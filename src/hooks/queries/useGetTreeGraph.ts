@@ -1,10 +1,10 @@
 import { getTreeGraph } from '@/api/graph'
 import { GetGraphDto } from '@/types/graph'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useGraphStore } from '@/stores/graphStore'
+import { queryClient } from '@/lib/queryClient'
 
 export default function useGetTreeGraph() {
-    const queryClient = useQueryClient()
     const setIsGraphLoading = useGraphStore((state) => state.setIsGraphLoading)
 
     return useMutation({
@@ -13,9 +13,7 @@ export default function useGetTreeGraph() {
             setIsGraphLoading(true)
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['graph', 'nodes'] })
-            queryClient.invalidateQueries({ queryKey: ['graph', 'edges'] })
-            queryClient.invalidateQueries({ queryKey: ['graph', 'news'] })
+            queryClient.invalidateQueries({ queryKey: ['graph'] })
         },
         onSettled: () => {
             setIsGraphLoading(false)

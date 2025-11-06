@@ -7,7 +7,8 @@ import { useAuthStore } from '@/stores/authStore'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
+import { queryClient } from '@/lib/queryClient'
+import { useGraphStore } from '@/stores/graphStore'
 
 const loginSchema = z.object({
     id: z
@@ -31,8 +32,6 @@ export interface HeaderProps {
 }
 
 export const Header = () => {
-    const queryClient = useQueryClient()
-
     const [showLoginModal, setShowLoginModal] = useState(false)
     const [failError, setFailError] = useState<string | null>(null)
 
@@ -45,6 +44,7 @@ export const Header = () => {
         setFailError(null)
     }
 
+    const clearSelectedLink = useGraphStore((state) => state.clearSelectedLink)
     const login = useAuthStore((state) => state.login)
     const logout = useAuthStore((state) => state.logout)
     const {
@@ -70,6 +70,7 @@ export const Header = () => {
 
     const onLogout = async () => {
         queryClient.clear()
+        clearSelectedLink()
         await logout()
     }
 
