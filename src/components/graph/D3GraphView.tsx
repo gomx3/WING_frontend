@@ -2,15 +2,16 @@
 
 import React, { useEffect, useMemo, useRef } from 'react'
 import * as d3 from 'd3'
-import { ApiEdge, ApiNode, MyLink, MyNode, GraphData } from '@/types/graph'
+import { ApiEdge, ApiNode, MyLink, MyNode, GraphData, ApiNews } from '@/types/graph'
 import { useGraphStore } from '@/stores/graphStore'
 
 interface D3GraphViewProps {
     nodesData: ApiNode[]
     edgesData: ApiEdge[]
+    newsData: ApiNews[] | undefined
 }
 
-export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
+export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps) => {
     const svgRef = useRef<SVGSVGElement>(null)
 
     const isGraphLoading = useGraphStore((state) => state.isGraphLoading)
@@ -27,18 +28,31 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             importance: node.weight,
         }))
 
-        const transformedLinks: MyLink[] = edgesData.map((edge) => ({
-            source: edge.startPoint,
-            target: edge.endPoint,
-            weight: edge.weight,
-            sentiment: edge.sentiment_score ?? 0,
-        }))
+        const transformedLinks: MyLink[] = edgesData.map((edge) => {
+            // 이 링크에 해당하는 기사 수를 계산
+            const articleCount = newsData
+                ? newsData.filter((article) => {
+                      const matchForward = article.startPoint === edge.startPoint && article.endPoint === edge.endPoint
+                      const matchBackward = article.startPoint === edge.endPoint && article.endPoint === edge.startPoint
+                      return matchForward || matchBackward
+                  }).length
+                : 0
+
+            return {
+                source: edge.startPoint,
+                target: edge.endPoint,
+                weight: edge.weight,
+                sentiment: edge.sentiment_score ?? 0,
+                sentimentLabel: edge.sentiment_label,
+                articleCount: articleCount, // 계산된 값 할당
+            }
+        })
 
         return {
             nodes: transformedNodes,
             links: transformedLinks,
         }
-    }, [nodesData, edgesData])
+    }, [nodesData, edgesData, newsData])
 
     useEffect(() => {
         if (!svgRef.current) {
@@ -96,8 +110,8 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
             .data(links)
             .enter()
             .append('line')
-            .style('stroke-width', (d) => d.weight * 4)
-            .style('stroke', 'rgba(0,0,0,0.15)')
+            .style('stroke-width', (d) => d.weight * 5)
+            .style('stroke', (d) => getLinkColor(d, false))
             .style('cursor', 'pointer')
             .on('click', (event, d) => {
                 const sourceId = (d.source as MyNode).id
@@ -193,7 +207,7 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
 
         svg.call(zoom.transform, d3.zoomIdentity.translate(translateX, translateY).scale(scale))
 
-        nodeGroup.selectAll('text').style('font-size', `${14 / scale}px`)
+        nodeGroup.selectAll('text').style('font-size', `${16 / scale}px`)
 
         return () => {
             simulation.stop()
@@ -211,15 +225,43 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
         svg.selectAll<SVGLineElement, MyLink>('.links line')
             .transition()
             .duration(300)
-            .style('stroke', (d) => {
-                if (isInvestmentMode) {
-                    const sentiment = d.sentiment ?? 0
-                    if (sentiment > 0.1) return 'rgba(240, 86, 109, 0.5)'
-                    if (sentiment < -0.1) return 'rgba(67, 83, 244, 0.5)'
-                }
-                return 'rgba(0,0,0,0.15)'
-            })
-    }, [isInvestmentMode, isGraphLoading])
+            .style('stroke', (d) => getLinkColor(d, isInvestmentMode))
+    }, [isInvestmentMode, isGraphLoading, graphData])
+
+    /**
+     * 링크(엣지)의 색상을 결정하는 헬퍼 함수
+     * @param link - MyLink 데이터
+     * @param isInvestment - 현재 투자 모드 여부
+     */
+    const getLinkColor = (link: MyLink, isInvestment: boolean): string => {
+        // 1. 기사 수가 0이면 무조건 매우 연한 색
+        if (link.articleCount === 0) {
+            return 'rgba(230, 230, 230, 0.2)'
+        }
+
+        const label = link.sentimentLabel ?? 'neutral'
+
+        // 2. 투자 모드일 때
+        if (isInvestment) {
+            switch (label) {
+                case 'positive':
+                    return 'rgba(240, 86, 109, 0.5)' // 긍정
+                case 'negative':
+                    return 'rgba(67, 83, 244, 0.5)' // 부정
+                case 'neutral':
+                default:
+                    return 'rgba(180, 180, 180, 0.5)' // 중립
+            }
+        }
+
+        // 3. 일반 모드일 때 (기사 수는 0이 아님)
+        if (label === 'neutral') {
+            return 'rgba(180, 180, 180, 0.5)' // 중립
+        }
+
+        // 4. 일반 모드 + positive/negative
+        return 'rgba(0,0,0,0.15)'
+    }
 
     return (
         <div className="absolute top-0 left-0 w-full h-full">

@@ -3,13 +3,17 @@
 import { useGraphStore } from '@/stores/graphStore'
 import { ArticleItem } from './ArticleItem'
 import { ArticlePanelPlaceholder } from './ArticlePlaceholder'
-import useGetNews from '@/hooks/queries/useGetNews'
 import { useMemo } from 'react'
+import { ApiNews } from '@/types/graph'
+import { NoArticle } from './NoArticle'
 
-export const ArticlePanel = () => {
+interface ArticlePanelProps {
+    newsData: ApiNews[] | undefined
+    isLoading: boolean
+}
+
+export const ArticlePanel = ({ newsData, isLoading }: ArticlePanelProps) => {
     const { selectedLink } = useGraphStore()
-
-    const { data: newsData, isLoading } = useGetNews()
 
     const filteredNews = useMemo(() => {
         if (!newsData || !selectedLink) {
@@ -51,9 +55,11 @@ export const ArticlePanel = () => {
             <hr className="border-neutral-200" />
 
             <div className="space-y-4">
-                {filteredNews.map((article) => (
-                    <ArticleItem key={article.id} article={article} />
-                ))}
+                {filteredNews.length > 0 ? (
+                    filteredNews.map((article) => <ArticleItem key={article.id} article={article} />)
+                ) : (
+                    <NoArticle />
+                )}
             </div>
         </div>
     )
