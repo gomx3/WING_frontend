@@ -48,8 +48,6 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
         const currentSvgNode = svgRef.current
         const svg = d3.select(currentSvgNode)
 
-        svg.selectAll('*').remove()
-
         if (graphData.nodes.length === 0) {
             return
         }
