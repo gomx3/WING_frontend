@@ -26,4 +26,18 @@
             transform: scale(1);
         }
     }
+
+    .pulse-7s {
+        animation: pulse7s 2s ease-in-out 7;
+    }
+
+    @keyframes pulse7s {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.3;
+        }
+    }
 }

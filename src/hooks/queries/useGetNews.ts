@@ -2,7 +2,7 @@ import { getNews } from '@/api/graph'
 import { useAuthStore } from '@/stores/authStore'
 import { useQuery } from '@tanstack/react-query'
 
-export default function useGetNews() {
+export function useGetNews() {
     const accessToken = useAuthStore((state) => state.accessToken)
 
     return useQuery({

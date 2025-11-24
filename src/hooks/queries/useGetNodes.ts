@@ -2,7 +2,7 @@ import { getNodes } from '@/api/graph'
 import { useAuthStore } from '@/stores/authStore'
 import { useQuery } from '@tanstack/react-query'
 
-export default function useGetNodes() {
+export function useGetNodes() {
     const accessToken = useAuthStore((state) => state.accessToken)
 
     return useQuery({

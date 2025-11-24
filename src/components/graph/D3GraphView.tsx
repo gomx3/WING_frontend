@@ -165,7 +165,7 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
             .append('circle')
             .attr('r', (d) => Math.sqrt(d.importance * 100 + 700)) // 노드 크기 조정
             .attr('fill', '#F6F6F6')
-            .attr('stroke', '#E3E3E3')
+            .attr('stroke', '#CCCCCC')
             .attr('stroke-width', 0.5)
 
         nodeGroup

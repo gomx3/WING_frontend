@@ -2,7 +2,7 @@ import { getEdges } from '@/api/graph'
 import { useAuthStore } from '@/stores/authStore'
 import { useQuery } from '@tanstack/react-query'
 
-export default function useGetEdges() {
+export function useGetEdges() {
     const accessToken = useAuthStore((state) => state.accessToken)
 
     return useQuery({
