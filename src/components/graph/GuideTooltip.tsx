@@ -23,7 +23,7 @@ export const GuideTooltip = () => {
                 </div>
             </button>
 
-            {showTooltip && <Tooltip className="absolute -top-[6px] right-10" />}
+            {showTooltip && <Tooltip className="absolute -top-[6px] right-10 z-10" />}
         </>
     )
 }
