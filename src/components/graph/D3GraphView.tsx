@@ -104,6 +104,10 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
 
         svg.call(zoom)
 
+        const weights = graphData.links.map((l) => l.weight)
+        const minWeight = Math.min(...weights)
+        const maxWeight = Math.max(...weights)
+
         const linkGroup = g
             .append('g')
             .attr('class', 'links')
@@ -111,8 +115,15 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
             .data(links)
             .enter()
             .append('line')
-            .style('stroke-width', (d) => d.weight * 5)
             .style('stroke', (d) => getLinkColor(d, false))
+            .style('stroke-width', (d) => {
+                const normalized = (d.weight - minWeight) / (maxWeight - minWeight)
+                return 2 + normalized * 4 // 2px~6px
+            })
+            .style('stroke-opacity', (d) => {
+                const normalized = (d.weight - minWeight) / (maxWeight - minWeight)
+                return 0.3 + normalized * 0.7 // 0.3~1.0
+            })
             .style('cursor', 'pointer')
             .on('click', (event, d) => {
                 const sourceId = (d.source as MyNode).id
@@ -230,7 +241,19 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
     }, [isInvestmentMode, isGraphLoading, graphData])
 
     return (
-        <div className="absolute top-0 left-0 w-full h-full">
+        <div
+            className="absolute top-0 left-0 w-full h-full"
+            style={{
+                backgroundImage: `
+                linear-gradient(rgba(0,0,0,.01) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0,0,0,.01) 2px, transparent 2px),
+                linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px)
+            `,
+                backgroundSize: `100px 100px, 100px 100px, 20px 20px, 20px 20px`,
+                backgroundPosition: `-2px -2px, -2px -2px, -1px -1px, -1px -1px`,
+            }}
+        >
             <svg ref={svgRef} style={{ width: '100%', height: '100%', cursor: 'grab' }} />
 
             {isGraphLoading && (
