@@ -9,7 +9,7 @@ export const AddStockForm = ({ onAdd }: { onAdd: (stock: Stock) => void }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (!name || !ticker || amount <= 0) return
-        onAdd({ id: Date.now().toString(), name, ticker, amount })
+        onAdd({ id: crypto.randomUUID(), name, ticker, amount })
         setName('')
         setTicker('')
         setAmount(0)

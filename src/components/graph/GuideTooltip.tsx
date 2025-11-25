@@ -10,7 +10,7 @@ export const GuideTooltip = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowTooltip(false)
-        }, 5000)
+        }, 7000)
 
         return () => clearTimeout(timer)
     }, [])
@@ -19,7 +19,7 @@ export const GuideTooltip = () => {
         <>
             <button className="absolute top-5 right-5 z-10 cursor-pointer">
                 <div className="relative">
-                    <Info onClick={handleInfoClick} className="text-neutral-500 pulse-7s" />
+                    <Info onClick={handleInfoClick} className="text-neutral-500 pulse-attention" />
                 </div>
             </button>
 

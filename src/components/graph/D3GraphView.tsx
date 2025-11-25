@@ -117,11 +117,11 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
             .append('line')
             .style('stroke', (d) => getLinkColor(d, false))
             .style('stroke-width', (d) => {
-                const normalized = (d.weight - minWeight) / (maxWeight - minWeight)
+                const normalized = maxWeight - minWeight > 0 ? (d.weight - minWeight) / (maxWeight - minWeight) : 0
                 return 2 + normalized * 4 // 2px~6px
             })
             .style('stroke-opacity', (d) => {
-                const normalized = (d.weight - minWeight) / (maxWeight - minWeight)
+                const normalized = maxWeight - minWeight > 0 ? (d.weight - minWeight) / (maxWeight - minWeight) : 0
                 return 0.3 + normalized * 0.7 // 0.3~1.0
             })
             .style('cursor', 'pointer')

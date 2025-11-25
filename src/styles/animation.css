@@ -27,11 +27,11 @@
         }
     }
 
-    .pulse-7s {
-        animation: pulse7s 2s ease-in-out 7;
+    .pulse-attention {
+        animation: pulseAttention 2s ease-in-out 7;
     }
 
-    @keyframes pulse7s {
+    @keyframes pulseAttention {
         0%,
         100% {
             opacity: 1;
