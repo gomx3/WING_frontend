@@ -5,16 +5,26 @@ import { useEffect, useState } from 'react'
 import { SlideMenu } from './SlideMenu'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import clsx from 'clsx'
+import { usePathname } from 'next/navigation'
+import { useAuthStore } from '@/stores/authStore'
 
 export const Sidebar = () => {
     const isDesktop = useMediaQuery('(min-width: 1024px)')
+    const pathname = usePathname()
 
     const [showMenu, setShowMenu] = useState(false)
 
+    const accessToken = useAuthStore((state) => state.accessToken)
+
     useEffect(() => {
+        if (!accessToken || pathname.startsWith('/auth/signup')) {
+            setShowMenu(false)
+            return
+        }
+
         if (isDesktop) setShowMenu(true)
         else setShowMenu(false)
-    }, [isDesktop])
+    }, [isDesktop, pathname, accessToken])
 
     const toggleMenu = () => setShowMenu(!showMenu)
 

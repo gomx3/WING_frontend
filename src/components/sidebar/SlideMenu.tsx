@@ -1,7 +1,9 @@
 import clsx from 'clsx'
 import { X } from 'lucide-react'
-import Image from 'next/image'
 import { InvestModeController } from './InvestModeController'
+import { useState } from 'react'
+import { Stock } from '@/types/my'
+import { StockList } from './StockList'
 
 interface SlideMenuProps {
     showMenu: boolean
@@ -9,6 +11,11 @@ interface SlideMenuProps {
 }
 
 export const SlideMenu = ({ showMenu, toggleMenu }: SlideMenuProps) => {
+    const [stocks, setStocks] = useState<Stock[]>([])
+
+    // const handleAddStock = (stock: Stock) => setStocks((prev) => [...prev, stock])
+    const handleRemoveStock = (id: string) => setStocks((prev) => prev.filter((s) => s.id !== id))
+
     return (
         <div
             className={clsx(
@@ -31,13 +38,9 @@ export const SlideMenu = ({ showMenu, toggleMenu }: SlideMenuProps) => {
             {/* 종목 투자 모드 (임시) */}
             <InvestModeController showMenu={showMenu} />
             {/* ------ */}
-
             <div className={clsx('flex flex-1 justify-center items-center h-full', showMenu ? 'block' : 'hidden')}>
                 <div className="flex flex-col justify-center items-center pb-28 gap-4">
-                    <div className="p-[0.543rem] rounded-full bg-neutral-200">
-                        <Image src="/assets/document.svg" alt="문서 아이콘" width={48} height={48} />
-                    </div>
-                    <p className="font-medium text-neutral-500 tracking-[-0.4px]">보유 종목이 없어요</p>
+                    <StockList stocks={stocks} onRemove={handleRemoveStock} />
                 </div>
             </div>
         </div>

@@ -51,16 +51,19 @@ export const HeaderDesktop = ({ onLogin, onLogout }: HeaderProps) => {
                 ) : isLoggedIn ? (
                     // 2-1. Hydration 완료 + 로그인 상태
                     <div className="relative flex flex-row items-center gap-3">
-                        <div
-                            onClick={() => setShowDropdown((p) => !p)}
-                            className="flex flex-row justify-center items-center cursor-pointer gap-1"
-                        >
-                            <button className="flex justify-center items-center w-9 aspect-square rounded-full border border-neutral-300 bg-neutral-200 cursor-pointer">
+                        <div ref={dropdownRef} className="relative flex flex-row items-center gap-1">
+                            <button
+                                onClick={() => setShowDropdown((prev) => !prev)}
+                                className="flex flex-row justify-center items-center w-9 h-9 rounded-full border border-neutral-300 bg-neutral-200 cursor-pointer"
+                            >
                                 <UserRound className="text-neutral-400" />
                             </button>
                             <ChevronDown className="size-4 text-neutral-400" />
+
+                            {isLoggedIn && showDropdown && (
+                                <UserDropdown onLogout={onLogout} showDropdown={showDropdown} />
+                            )}
                         </div>
-                        {showDropdown && <UserDropdown onLogout={onLogout} showDropdown={showDropdown} />}
                     </div>
                 ) : (
                     // 2-2. Hydration 완료 + 로그아웃 상태

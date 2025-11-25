@@ -26,4 +26,18 @@
             transform: scale(1);
         }
     }
+
+    .pulse-attention {
+        animation: pulseAttention 2s ease-in-out 7;
+    }
+
+    @keyframes pulseAttention {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.3;
+        }
+    }
 }

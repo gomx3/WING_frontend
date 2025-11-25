@@ -6,9 +6,9 @@ import { RecommendedKeywords } from './RecommendedKeywords'
 import { KeywordsCurrent } from './KeywordsCurrent'
 import { MAX_KEYWORDS } from '@/constants/common'
 import { useSearchStore } from '@/stores/searchStore'
-import useGetTreeGraph from '@/hooks/queries/useGetTreeGraph'
 import { useGraphStore } from '@/stores/graphStore'
 import { useAuthStore } from '@/stores/authStore'
+import { useGetTreeGraph } from '@/hooks'
 
 export const KeywordSearchBar = () => {
     const [inputValue, setInputValue] = useState('')
