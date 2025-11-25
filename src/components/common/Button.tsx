@@ -10,7 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = ({ label, size = 'md', variant = 'primary', className, ...props }: ButtonProps) => {
     const sizeClasses: Record<typeof size, string> = {
-        sm: 'px-[0.625rem] py-[0.25rem] py-1 text-[0.8rem]',
+        sm: 'px-[0.625rem] py-[0.25rem] text-[0.8rem]',
         md: 'rounded-[0.5rem] px-[0.625rem] py-1 text-[0.875rem]',
         lg: 'rounded-[0.725rem] px-4 py-2 text-[0.925rem] tablet:text-[1rem]',
     }

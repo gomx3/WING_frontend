@@ -1,9 +1,9 @@
-import Image from 'next/image'
+import SVGEmpty from '@/assets/empty-box.svg'
 
 export const NoArticle = () => {
     return (
         <div className="flex flex-col items-center justify-center mt-60 gap-3">
-            <Image src="/assets/empty-box.svg" alt="빈 박스 아이콘" width={60} height={60} />
+            <SVGEmpty className="w-[60px] h-[60px]" />
             <h3 className="mt-2 text-[1.25rem] font-semibold text-neutral-500 whitespace-pre-line text-center leading-[130%] tracking-[-0.45px]">
                 관련 기사가 없습니다.
             </h3>

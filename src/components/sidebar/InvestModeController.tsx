@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/stores/authStore'
 import { useGraphStore } from '@/stores/graphStore'
 import clsx from 'clsx'
 
@@ -6,6 +7,7 @@ interface InvestModeControllerProps {
 }
 
 export const InvestModeController = ({ showMenu }: InvestModeControllerProps) => {
+    const accessToken = useAuthStore((state) => state.accessToken)
     const { isInvestmentMode, toggleInvestmentMode } = useGraphStore()
 
     return (
@@ -21,10 +23,12 @@ export const InvestModeController = ({ showMenu }: InvestModeControllerProps) =>
                     id="investment-toggle"
                     role="switch"
                     aria-checked={isInvestmentMode}
-                    onClick={toggleInvestmentMode}
+                    onClick={accessToken ? toggleInvestmentMode : undefined}
+                    disabled={!accessToken}
                     className={clsx(
-                        'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2',
-                        isInvestmentMode ? 'bg-primary-600' : 'bg-neutral-300'
+                        'relative inline-flex h-6 w-11 flex-shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2',
+                        isInvestmentMode ? 'bg-primary-600' : 'bg-neutral-300',
+                        accessToken ? 'cursor-pointer' : 'cursor-default'
                     )}
                 >
                     <span

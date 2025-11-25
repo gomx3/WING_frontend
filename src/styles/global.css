@@ -28,6 +28,7 @@ body {
     color: var(--foreground);
     font-family: var(--font-pretendard), sans-serif;
     min-width: 1440px;
+    word-break: keep-all;
 }
 
 @theme {
@@ -50,6 +51,7 @@ body {
     --color-neutral-black: #161616;
     --color-neutral-black-opacity50: #16161680;
     --color-neutral-black-opacity25: #16161640;
+    --color-neutral-white-opacity50: #f7f7f780;
     --color-neutral-white-opacity25: #f7f7f740;
 
     --breakpoint-desktop: 1440px;
