@@ -1,12 +1,12 @@
-import { LinkObject, NodeObject } from 'react-force-graph-2d'
+import { SimulationNodeDatum } from 'd3'
 
-export interface MyNode extends NodeObject {
+export interface MyNode extends SimulationNodeDatum {
     id: string
     label: string
-    importance: number
+    weight: number
 }
 
-export interface MyLink extends LinkObject {
+export interface MyLink extends SimulationNodeDatum {
     source: string | MyNode
     target: string | MyNode
     weight: number
@@ -19,8 +19,6 @@ export interface GraphData {
     nodes: MyNode[]
     links: MyLink[]
 }
-
-// ***
 
 export interface ApiNode {
     id: number

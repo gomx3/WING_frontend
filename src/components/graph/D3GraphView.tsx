@@ -26,7 +26,7 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
         const transformedNodes: MyNode[] = nodesData.map((node) => ({
             id: node.name,
             label: node.name,
-            importance: node.weight,
+            weight: node.weight,
         }))
 
         const transformedLinks: MyLink[] = edgesData.map((edge) => {
@@ -63,6 +63,8 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
         const currentSvgNode = svgRef.current
         const svg = d3.select(currentSvgNode)
 
+        svg.selectAll('*').remove()
+
         if (graphData.nodes.length === 0) {
             return
         }
@@ -74,6 +76,16 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
 
         const { nodes, links } = graphData
 
+        // 1. 링크 가중치 범위
+        const linkWeights = links.map((l) => l.weight)
+        const minLinkWeight = Math.min(...linkWeights)
+        const maxLinkWeight = Math.max(...linkWeights)
+
+        // 2. 노드 가중치 범위
+        const nodeWeights = nodes.map((n) => n.weight)
+        const minNodeWeight = Math.min(...nodeWeights)
+        const maxNodeWeight = Math.max(...nodeWeights)
+
         const simulation = d3
             .forceSimulation<MyNode, MyLink>(nodes)
             .force(
@@ -84,7 +96,7 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
                     .distance(250) // 엣지 길이 조정
                     .strength((d) => d.weight * 0.5 + 0.1)
             )
-            .force('charge', d3.forceManyBody().strength(-400))
+            .force('charge', d3.forceManyBody().strength(-200))
             .force('center', d3.forceCenter(width / 2, height / 2))
             .stop()
 
@@ -104,10 +116,6 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
 
         svg.call(zoom)
 
-        const weights = graphData.links.map((l) => l.weight)
-        const minWeight = Math.min(...weights)
-        const maxWeight = Math.max(...weights)
-
         const linkGroup = g
             .append('g')
             .attr('class', 'links')
@@ -117,15 +125,17 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
             .append('line')
             .style('stroke', (d) => getLinkColor(d, false))
             .style('stroke-width', (d) => {
-                const normalized = maxWeight - minWeight > 0 ? (d.weight - minWeight) / (maxWeight - minWeight) : 0
-                return 2 + normalized * 4 // 2px~6px
+                const normalized =
+                    maxLinkWeight - minLinkWeight > 0 ? (d.weight - minLinkWeight) / (maxLinkWeight - minLinkWeight) : 0
+                return 2 + normalized * 4 // 2px ~ 6px
             })
             .style('stroke-opacity', (d) => {
-                const normalized = maxWeight - minWeight > 0 ? (d.weight - minWeight) / (maxWeight - minWeight) : 0
+                const normalized =
+                    maxLinkWeight - minLinkWeight > 0 ? (d.weight - minLinkWeight) / (maxLinkWeight - minLinkWeight) : 0
                 return 0.3 + normalized * 0.7 // 0.3~1.0
             })
             .style('cursor', 'pointer')
-            .on('click', (event, d) => {
+            .on('click', (_event, d) => {
                 const sourceId = (d.source as MyNode).id
                 const targetId = (d.target as MyNode).id
 
@@ -163,7 +173,11 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
 
         nodeGroup
             .append('circle')
-            .attr('r', (d) => Math.sqrt(d.importance * 100 + 700)) // 노드 크기 조정
+            .attr('r', (d) => {
+                const normalized =
+                    maxNodeWeight - minNodeWeight > 0 ? (d.weight - minNodeWeight) / (maxNodeWeight - minNodeWeight) : 0
+                return 15 + normalized * 30 // 15px ~ 45px
+            })
             .attr('fill', '#F6F6F6')
             .attr('stroke', '#CCCCCC')
             .attr('stroke-width', 0.5)
