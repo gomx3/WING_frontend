@@ -78,8 +78,8 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
 
         // 1. 링크 가중치 범위
         const linkWeights = links.map((l) => l.weight)
-        const minLinkWeight = Math.min(...linkWeights)
-        const maxLinkWeight = Math.max(...linkWeights)
+        const minLinkWeight = links.length > 0 ? Math.min(...linkWeights) : 0
+        const maxLinkWeight = links.length > 0 ? Math.max(...linkWeights) : 1
 
         // 2. 노드 가중치 범위
         const nodeWeights = nodes.map((n) => n.weight)
