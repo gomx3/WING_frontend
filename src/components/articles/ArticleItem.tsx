@@ -1,11 +1,11 @@
 import { formatRelativeTime } from '@/utils/format'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ApiNews } from '@/types/graph'
+import { News } from '@/types/graph'
 import { decodeHtml } from '@/utils/decodeHtml'
 
 interface ArticleItemProps {
-    article: ApiNews
+    article: News
 }
 
 export const ArticleItem = ({ article }: ArticleItemProps) => {

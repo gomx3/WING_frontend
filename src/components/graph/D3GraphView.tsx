@@ -2,21 +2,21 @@
 
 import React, { useEffect, useMemo, useRef } from 'react'
 import * as d3 from 'd3'
-import { ApiEdge, ApiNode, MyLink, MyNode, GraphData, ApiNews } from '@/types/graph'
+import { ApiEdge, ApiNode, MyLink, MyNode, GraphData } from '@/types/graph'
 import { useGraphStore } from '@/stores/graphStore'
 import { getLinkColor } from '@/utils/graph'
 
 interface D3GraphViewProps {
     nodesData: ApiNode[]
     edgesData: ApiEdge[]
-    newsData: ApiNews[] | undefined
 }
 
-export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps) => {
+export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
     const svgRef = useRef<SVGSVGElement>(null)
 
     const isGraphLoading = useGraphStore((state) => state.isGraphLoading)
     const isInvestmentMode = useGraphStore((state) => state.isInvestmentMode)
+    const selectedLink = useGraphStore((state) => state.selectedLink)
 
     const graphData = useMemo((): GraphData => {
         if (!nodesData || !edgesData) {
@@ -27,25 +27,17 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
             id: node.name,
             label: node.name,
             weight: node.weight,
+            isMain: node.kind === 'MAIN',
         }))
 
         const transformedLinks: MyLink[] = edgesData.map((edge) => {
-            // 이 링크에 해당하는 기사 수를 계산
-            const articleCount = newsData
-                ? newsData.filter((article) => {
-                      const matchForward = article.startPoint === edge.startPoint && article.endPoint === edge.endPoint
-                      const matchBackward = article.startPoint === edge.endPoint && article.endPoint === edge.startPoint
-                      return matchForward || matchBackward
-                  }).length
-                : 0
-
             return {
                 source: edge.startPoint,
                 target: edge.endPoint,
                 weight: edge.weight,
                 sentiment: edge.sentiment_score ?? 0,
                 sentimentLabel: edge.sentiment_label,
-                articleCount: articleCount, // 계산된 값 할당
+                articleCount: edge.collectedCount,
             }
         })
 
@@ -53,7 +45,7 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
             nodes: transformedNodes,
             links: transformedLinks,
         }
-    }, [nodesData, edgesData, newsData])
+    }, [nodesData, edgesData])
 
     useEffect(() => {
         if (!svgRef.current) {
@@ -93,7 +85,7 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
                 d3
                     .forceLink<MyNode, MyLink>(links)
                     .id((d) => d.id)
-                    .distance(250) // 엣지 길이 조정
+                    .distance(250)
                     .strength((d) => d.weight * 0.5 + 0.1)
             )
             .force('charge', d3.forceManyBody().strength(-200))
@@ -178,8 +170,8 @@ export const D3GraphView = ({ nodesData, edgesData, newsData }: D3GraphViewProps
                     maxNodeWeight - minNodeWeight > 0 ? (d.weight - minNodeWeight) / (maxNodeWeight - minNodeWeight) : 0
                 return 15 + normalized * 30 // 15px ~ 45px
             })
-            .attr('fill', '#F6F6F6')
-            .attr('stroke', '#CCCCCC')
+            .attr('fill', (d) => (d.isMain ? '#B6B6B6' : '#F6F6F6'))
+            .attr('stroke', (d) => (d.isMain ? '#888888' : '#CCCCCC'))
             .attr('stroke-width', 0.5)
 
         nodeGroup

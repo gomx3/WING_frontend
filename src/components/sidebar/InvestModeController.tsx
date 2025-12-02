@@ -2,16 +2,12 @@ import { useAuthStore } from '@/stores/authStore'
 import { useGraphStore } from '@/stores/graphStore'
 import clsx from 'clsx'
 
-interface InvestModeControllerProps {
-    showMenu: boolean
-}
-
-export const InvestModeController = ({ showMenu }: InvestModeControllerProps) => {
+export const InvestModeController = () => {
     const accessToken = useAuthStore((state) => state.accessToken)
     const { isInvestmentMode, toggleInvestmentMode } = useGraphStore()
 
     return (
-        <div className={clsx('mt-6 space-y-2', showMenu ? 'block' : 'hidden')}>
+        <div className="space-y-2">
             <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-neutral-200">
                 <label
                     htmlFor="investment-toggle"

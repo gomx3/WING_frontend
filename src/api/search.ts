@@ -1,3 +1,4 @@
+import { GetSubkeywordsDto, GetSubkeywordsResponse } from '@/types/search'
 import { axiosInstance } from './axios'
 
 export const postSubKeywords = async (body: GetSubkeywordsDto): Promise<GetSubkeywordsResponse> => {

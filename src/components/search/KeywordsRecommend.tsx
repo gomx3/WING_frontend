@@ -43,7 +43,7 @@ export const KeywordsRecommend = ({ addKeyword }: KeywordsRecommendProps) => {
                     ) : recommended.length > 0 ? (
                         <div className="space-y-2">
                             <p className="text-sm font-medium text-neutral-500 tracking-[-0.4px] pl-1">
-                                '{mainKeyword}' 관련 추천 키워드
+                                &apos;{mainKeyword}&apos; 관련 추천 키워드
                             </p>
                             <div className="flex flex-wrap">
                                 {recommended.map((kw, idx) => (

@@ -1,9 +1,9 @@
-interface GetSubkeywordsDto {
+export interface GetSubkeywordsDto {
     mainKeyword: string
     count: number
 }
 
-interface GetSubkeywordsResponse {
+export interface GetSubkeywordsResponse {
     mainKeyword: string
     subKeywords: string[]
 }
