@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { StockList } from './StockList'
 import { useState } from 'react'
 import { Stock } from '@/types/my'

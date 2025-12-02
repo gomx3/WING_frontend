@@ -247,17 +247,12 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
 
         const svg = d3.select(svgRef.current)
 
-        const { nodes, links } = graphData
+        const { links } = graphData
 
-        // 1. 링크 가중치 범위
+        // 링크 가중치 범위
         const linkWeights = links.map((l) => l.weight)
         const minLinkWeight = links.length > 0 ? Math.min(...linkWeights) : 0
         const maxLinkWeight = links.length > 0 ? Math.max(...linkWeights) : 1
-
-        // 2. 노드 가중치 범위
-        const nodeWeights = nodes.map((n) => n.weight)
-        const minNodeWeight = Math.min(...nodeWeights)
-        const maxNodeWeight = Math.max(...nodeWeights)
 
         svg.selectAll<SVGLineElement, MyLink>('.links line')
             .transition()
