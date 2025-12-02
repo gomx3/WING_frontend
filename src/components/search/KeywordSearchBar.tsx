@@ -6,7 +6,7 @@ import { KeywordInput } from './KeywordInput'
 import { KeywordsCurrent } from './KeywordsCurrent'
 import { KeywordsRecommend } from './KeywordsRecommend'
 import { MAX_KEYWORDS } from '@/constants/common'
-import { useAuthStore, useGraphStore, useSearchStore } from '@/stores'
+import { useAuthStore, useSearchStore } from '@/stores'
 import { useRequestNewTree } from '@/hooks'
 
 export const KeywordSearchBar = () => {
