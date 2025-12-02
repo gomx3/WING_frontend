@@ -21,7 +21,7 @@ export const ArticleItem = ({ article }: ArticleItemProps) => {
                     {decodeHtml(article.title)}
                 </h3>
                 <p className="text-[0.9rem] text-neutral-500 tracking-[-0.4px]">
-                    {formatRelativeTime(article.pubDate)}・{'개미뉴스'}
+                    {formatRelativeTime(article.pubDate)}
                 </p>
             </div>
 
