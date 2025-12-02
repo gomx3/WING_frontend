@@ -1,4 +1,4 @@
 export * from './useGetEdges'
 export * from './useGetNews'
 export * from './useGetNodes'
-export * from './useGetTreeGraph'
+export * from './useRequestNewTree'

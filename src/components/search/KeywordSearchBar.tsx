@@ -1,14 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Button, Input } from '../common'
-import { RecommendedKeywords } from './RecommendedKeywords'
+import { PopularKeywords } from './PopularKeywords'
+import { KeywordInput } from './KeywordInput'
 import { KeywordsCurrent } from './KeywordsCurrent'
+import { KeywordsRecommend } from './KeywordsRecommend'
 import { MAX_KEYWORDS } from '@/constants/common'
-import { useSearchStore } from '@/stores/searchStore'
-import { useGraphStore } from '@/stores/graphStore'
-import { useAuthStore } from '@/stores/authStore'
-import { useGetTreeGraph } from '@/hooks'
+import { useAuthStore, useGraphStore, useSearchStore } from '@/stores'
+import { useRequestNewTree } from '@/hooks'
 
 export const KeywordSearchBar = () => {
     const [inputValue, setInputValue] = useState('')
@@ -23,76 +22,62 @@ export const KeywordSearchBar = () => {
     const mainKeyword = keywords.length > 0 ? keywords[0] : null
     const subKeywords = keywords.length > 1 ? keywords.slice(1) : []
 
-    const { mutateAsync, isPending } = useGetTreeGraph()
+    const { mutateAsync: getGraph, isPending: isGraphPending } = useRequestNewTree()
 
     useEffect(() => {
         inputRef.current?.focus()
     }, [])
 
-    const addKeyword = () => {
-        const newKeyword = inputValue.trim()
-        if (newKeyword && !keywords.includes(newKeyword) && keywords.length < MAX_KEYWORDS) {
-            setKeywords([...keywords, newKeyword])
-            setInputValue('')
+    const addKeyword = (kw: string) => {
+        const newKw = kw.trim()
+        if (newKw && !keywords.includes(newKw) && keywords.length < MAX_KEYWORDS) {
+            setKeywords([...keywords, newKw])
         }
+    }
+
+    const addInputKeyword = () => {
+        addKeyword(inputValue)
+        setInputValue('')
     }
 
     const removeKeyword = (keywordToRemove: string) => {
         setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove))
     }
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            e.preventDefault()
-            addKeyword()
-        }
-    }
-
     const handleSearch = async () => {
-        if (!accessToken || isPending) return
+        if (!accessToken || isGraphPending) return
+        if (!mainKeyword) return
 
-        if (keywords.length > 0) {
-            setIsGraphLoading(true)
-            try {
-                await mutateAsync({
-                    mainKeyword: mainKeyword || '',
-                    subKeywords: subKeywords,
-                })
-            } catch (error) {
-                console.error('분석 요청 실패:', error)
-            } finally {
-                setIsGraphLoading(false)
-            }
+        setIsGraphLoading(true)
+        try {
+            await getGraph({
+                mainKeyword,
+                subKeywords,
+            })
+        } catch (error) {
+            console.error('분석 요청 실패:', error)
+        } finally {
+            setIsGraphLoading(false)
         }
     }
 
     return (
-        <div className="w-[32rem] p-4 space-y-8 rounded-[1.25rem] bg-neutral-50 border border-neutral-100">
-            <div className="flex w-full items-center space-x-2">
-                <Input
-                    ref={inputRef}
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={
-                        keywords.length >= MAX_KEYWORDS ? '최대 10개까지 등록 가능합니다' : '키워드 입력 후 Enter'
-                    }
-                    size="lg"
-                    showIcon={true}
-                    className="flex-1"
+        <div className="flex flex-row w-full max-w-2xl gap-2">
+            <PopularKeywords />
+
+            <div className="w-full p-4 rounded-2xl bg-neutral-50 border border-neutral-100 shadow-lg">
+                <KeywordInput
+                    inputRef={inputRef}
+                    inputValue={inputValue}
+                    setInputValue={setInputValue}
+                    addInputKeyword={addInputKeyword}
+                    isGraphLoading={isGraphPending}
+                    handleSearch={handleSearch}
                 />
 
-                <Button
-                    label={isPending ? '분석중...' : '분석하기'}
-                    size="lg"
-                    onClick={handleSearch}
-                    variant={isPending ? 'secondary' : 'primary'}
-                    disabled={isPending || keywords.length === 0}
-                />
+                <KeywordsRecommend addKeyword={addKeyword} />
+                <KeywordsCurrent onRemove={removeKeyword} />
             </div>
-
-            <KeywordsCurrent onRemove={removeKeyword} />
-            <RecommendedKeywords />
         </div>
     )
 }

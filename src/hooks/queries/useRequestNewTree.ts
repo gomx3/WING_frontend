@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useGraphStore } from '@/stores/graphStore'
 import { queryClient } from '@/lib/queryClient'
 
-export function useGetTreeGraph() {
+export function useRequestNewTree() {
     const setIsGraphLoading = useGraphStore((state) => state.setIsGraphLoading)
 
     return useMutation({
