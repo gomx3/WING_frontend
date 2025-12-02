@@ -108,11 +108,18 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
 
         svg.call(zoom)
 
+        svg.on('click', (event) => {
+            const isLinkOrNode = (event.target as HTMLElement).closest('.links line, .nodes g')
+            if (!isLinkOrNode) {
+                useGraphStore.setState({ selectedLink: null })
+            }
+        })
+
         const linkGroup = g
             .append('g')
             .attr('class', 'links')
             .selectAll('line')
-            .data(links)
+            .data(links.filter((d) => d.articleCount > 0))
             .enter()
             .append('line')
             .style('stroke', (d) => getLinkColor(d, false))
@@ -240,11 +247,43 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
 
         const svg = d3.select(svgRef.current)
 
+        const { nodes, links } = graphData
+
+        // 1. 링크 가중치 범위
+        const linkWeights = links.map((l) => l.weight)
+        const minLinkWeight = links.length > 0 ? Math.min(...linkWeights) : 0
+        const maxLinkWeight = links.length > 0 ? Math.max(...linkWeights) : 1
+
+        // 2. 노드 가중치 범위
+        const nodeWeights = nodes.map((n) => n.weight)
+        const minNodeWeight = Math.min(...nodeWeights)
+        const maxNodeWeight = Math.max(...nodeWeights)
+
         svg.selectAll<SVGLineElement, MyLink>('.links line')
             .transition()
             .duration(300)
             .style('stroke', (d) => getLinkColor(d, isInvestmentMode))
-    }, [isInvestmentMode, isGraphLoading, graphData])
+            .style('stroke-opacity', (d) => {
+                const normalized =
+                    maxLinkWeight - minLinkWeight > 0 ? (d.weight - minLinkWeight) / (maxLinkWeight - minLinkWeight) : 0
+                if (!selectedLink) return 0.3 + normalized * 0.7
+
+                const sourceId = (d.source as MyNode).id
+                const targetId = (d.target as MyNode).id
+                return selectedLink.source === sourceId && selectedLink.target === targetId
+                    ? 1 // 선택된 링크는 불투명
+                    : 0.1 // 나머지는 살짝 투명
+            })
+
+        svg.selectAll<SVGGElement, MyNode>('.nodes g')
+            .transition()
+            .duration(300)
+            .style('opacity', (d) => {
+                if (!selectedLink) return 1
+                // 선택된 링크와 연결된 노드만 강조
+                return d.id === selectedLink.source || d.id === selectedLink.target ? 1 : 0.1
+            })
+    }, [isInvestmentMode, selectedLink, isGraphLoading, graphData])
 
     return (
         <div

@@ -7,6 +7,7 @@ import { NoArticle } from './NoArticle'
 import { useGetEdges, useGetNewsByEdge } from '@/hooks'
 import { useEffect, useMemo, useRef } from 'react'
 import { formatNumber } from '@/utils/format'
+import { ArticleSkeleton } from './ArticleSkeleton'
 
 export const ArticlePanel = () => {
     const selectedGraphId = useGraphStore((state) => state.selectedGraphId)
@@ -45,8 +46,12 @@ export const ArticlePanel = () => {
         }
     }, [hasNextPage, isFetchingNextPage, fetchNextPage])
 
-    if (!selectedLink || !currentEdge || isLoading || !newsData) {
+    if (!selectedLink || !currentEdge) {
         return <ArticlePanelPlaceholder />
+    }
+
+    if (isLoading || !newsData) {
+        return <ArticleSkeleton />
     }
 
     const flatItems = newsData.pages.flatMap((page) => page.items)
@@ -59,8 +64,10 @@ export const ArticlePanel = () => {
                 </h3>
                 <p className="text-sm tracking-[-0.45px] text-neutral-600">
                     {`함께 언급된 ${formatNumber(currentEdge.totalEstimated)}개의 기사 중 `}
-                    <span className="text-primary-500">최신 {formatNumber(currentEdge.collectedCount)}개</span>의
-                    기사입니다.
+                    <span className="font-medium text-primary-600">
+                        최신 {formatNumber(currentEdge.collectedCount)}개
+                    </span>
+                    의 기사입니다.
                 </p>
             </div>
 

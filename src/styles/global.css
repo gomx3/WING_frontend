@@ -54,6 +54,9 @@ body {
     --color-neutral-white-opacity50: #f7f7f780;
     --color-neutral-white-opacity25: #f7f7f740;
 
+    --color-neutral-black-opacity5: #1616160d;
+    --color-neutral-black-opacity10: #1616161a;
+
     --breakpoint-desktop: 1440px;
     --breakpoint-tablet: 768px;
     --breakpoint-mobile: 360px;

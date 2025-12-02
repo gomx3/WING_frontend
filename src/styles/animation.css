@@ -41,3 +41,27 @@
         }
     }
 }
+
+@theme {
+    --animate-sway: sway 1s ease-in-out infinite;
+    --animate-wave: wave 2s linear infinite;
+
+    @keyframes sway {
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(10px);
+        }
+    }
+
+    @keyframes wave {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+}
