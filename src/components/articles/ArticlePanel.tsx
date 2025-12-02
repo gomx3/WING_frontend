@@ -18,7 +18,9 @@ export const ArticlePanel = () => {
     const currentEdge = useMemo(() => {
         if (!edgesData || !selectedLink) return null
         return edgesData.find(
-            (edge) => edge.startPoint === selectedLink.source && edge.endPoint === selectedLink.target
+            (edge) =>
+                (edge.startPoint === selectedLink.source && edge.endPoint === selectedLink.target) ||
+                (edge.startPoint === selectedLink.target && edge.endPoint === selectedLink.source)
         )
     }, [edgesData, selectedLink])
 

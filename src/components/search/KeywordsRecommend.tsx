@@ -16,6 +16,7 @@ export const KeywordsRecommend = ({ addKeyword }: KeywordsRecommendProps) => {
     const { mutateAsync: getSubKeywords, isPending: isLoadingSub } = useGetSubKeywords()
 
     useEffect(() => {
+        let isMounted = true
         const fetchRecommended = async () => {
             if (!mainKeyword) {
                 setRecommended([])
@@ -26,12 +27,18 @@ export const KeywordsRecommend = ({ addKeyword }: KeywordsRecommendProps) => {
                     mainKeyword,
                     count: 7,
                 })
-                setRecommended(data.subKeywords ?? [])
+                if (isMounted) {
+                    setRecommended(data.subKeywords ?? [])
+                }
             } catch (e) {
                 console.error('추천 키워드 불러오기 실패', e)
             }
         }
         fetchRecommended()
+
+        return () => {
+            isMounted = false
+        }
     }, [mainKeyword, getSubKeywords])
 
     return (

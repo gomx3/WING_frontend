@@ -15,7 +15,6 @@ export const KeywordSearchBar = () => {
     const accessToken = useAuthStore((state) => state.accessToken)
     const keywords = useSearchStore((state) => state.keywords)
     const setKeywords = useSearchStore((state) => state.setKeywords)
-    const setIsGraphLoading = useGraphStore((state) => state.setIsGraphLoading)
 
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -48,7 +47,6 @@ export const KeywordSearchBar = () => {
         if (!accessToken || isGraphPending) return
         if (!mainKeyword) return
 
-        setIsGraphLoading(true)
         try {
             await getGraph({
                 mainKeyword,
@@ -56,8 +54,6 @@ export const KeywordSearchBar = () => {
             })
         } catch (error) {
             console.error('분석 요청 실패:', error)
-        } finally {
-            setIsGraphLoading(false)
         }
     }
 

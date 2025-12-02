@@ -265,7 +265,10 @@ export const D3GraphView = ({ nodesData, edgesData }: D3GraphViewProps) => {
 
                 const sourceId = (d.source as MyNode).id
                 const targetId = (d.target as MyNode).id
-                return selectedLink.source === sourceId && selectedLink.target === targetId
+                const isSelected =
+                    (selectedLink.source === sourceId && selectedLink.target === targetId) ||
+                    (selectedLink.source === targetId && selectedLink.target === sourceId)
+                return isSelected
                     ? 1 // 선택된 링크는 불투명
                     : 0.1 // 나머지는 살짝 투명
             })
