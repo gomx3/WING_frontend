@@ -7,14 +7,9 @@ import { MyLink } from '@/types/graph'
  * @param isInvestment - 현재 투자 모드 여부
  */
 export const getLinkColor = (link: MyLink, isInvestment: boolean): string => {
-    // 1. 기사 수가 0이면 무조건 매우 연한 색
-    if (link.articleCount === 0) {
-        return LINK_COLORS.NO_ARTICLE
-    }
-
     const label = link.sentimentLabel ?? 'neutral'
 
-    // 2. 투자 모드일 때
+    // 1. 투자 모드일 때
     if (isInvestment) {
         switch (label) {
             case 'positive':
@@ -27,11 +22,11 @@ export const getLinkColor = (link: MyLink, isInvestment: boolean): string => {
         }
     }
 
-    // 3. 일반 모드일 때 (기사 수는 0이 아님)
+    // 2. 일반 모드일 때 (기사 수는 0이 아님)
     if (label === 'neutral') {
         return LINK_COLORS.NEUTRAL // 중립
     }
 
-    // 4. 일반 모드 + positive/negative
+    // 3. 일반 모드 + positive/negative
     return LINK_COLORS.DEFAULT
 }

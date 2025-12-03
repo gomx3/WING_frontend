@@ -1,10 +1,11 @@
 import { formatRelativeTime } from '@/utils/format'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ApiNews } from '@/types/graph'
+import { News } from '@/types/graph'
+import { decodeHtml } from '@/utils/decodeHtml'
 
 interface ArticleItemProps {
-    article: ApiNews
+    article: News
 }
 
 export const ArticleItem = ({ article }: ArticleItemProps) => {
@@ -17,10 +18,10 @@ export const ArticleItem = ({ article }: ArticleItemProps) => {
         >
             <div className="flex flex-col gap-1 flex-1">
                 <h3 className="text-neutral-600 text-[1rem] font-semibold tracking-[-0.4px] line-clamp-2">
-                    {article.title}
+                    {decodeHtml(article.title)}
                 </h3>
                 <p className="text-[0.9rem] text-neutral-500 tracking-[-0.4px]">
-                    {formatRelativeTime(article.pubDate)}・{'개미뉴스'}
+                    {formatRelativeTime(article.pubDate)}
                 </p>
             </div>
 

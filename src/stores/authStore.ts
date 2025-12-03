@@ -6,9 +6,11 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 interface AuthState {
     accessToken: string | null
     name: string | null
+    hydrated: boolean
     login: (body: SigninDto) => Promise<void>
     logout: () => Promise<void>
     signup: (body: SignupDto) => Promise<string>
+    setHydrated: (v: boolean) => void
 
     showSigninModal: boolean
     openSigninModal: () => void
@@ -21,6 +23,7 @@ export const useAuthStore = create<AuthState>()(
         (set) => ({
             accessToken: null,
             name: null,
+            hydrated: false,
             login: async (body: SigninDto) => {
                 try {
                     const { accessToken, id } = await postSignin(body)
@@ -44,6 +47,7 @@ export const useAuthStore = create<AuthState>()(
                     throw error
                 }
             },
+            setHydrated: (v) => set({ hydrated: v }),
 
             showSigninModal: false,
             openSigninModal: () => set({ showSigninModal: true }),
@@ -56,10 +60,9 @@ export const useAuthStore = create<AuthState>()(
         {
             name: 'auth-storage',
             storage: createJSONStorage(() => localStorage),
-            partialize: (state) => ({
-                accessToken: state.accessToken,
-                name: state.name,
-            }),
+            onRehydrateStorage: () => (state) => {
+                state?.setHydrated(true)
+            },
         }
     )
 )

@@ -34,3 +34,16 @@ export const truncateMiddle = (text: string, headChars: number, tailChars: numbe
     const tail = text.slice(-tailChars)
     return `${head}...${tail}`
 }
+
+/**
+ * 숫자에 천 단위 콤마를 추가해 반환합니다.
+ *
+ * @param {number} value - 포맷팅할 숫자
+ * @returns {string} 콤마가 포함된 문자열
+ *
+ * @example
+ * formatNumber(1234567); // "1,234,567"
+ */
+export function formatNumber(value: number): string {
+    return new Intl.NumberFormat('en-US').format(value)
+}

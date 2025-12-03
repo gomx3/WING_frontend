@@ -13,12 +13,12 @@ const KEYWORDS = [
     { name: 'NVDA' },
 ] as const
 
-export const RecommendedKeywords = () => {
+export const PopularKeywords = () => {
     const { keywords, setKeywords } = useSearchStore()
 
     return (
-        <div className="flex flex-col px-2 gap-3">
-            <p className="text-[0.875rem] font-bold text-neutral-600 tracking-[-0.4px]">추천 키워드</p>
+        <div className="flex flex-col w-[16rem] h-fit p-4 gap-3  rounded-2xl bg-neutral-50 border border-neutral-100 shadow-lg">
+            <p className="text-sm font-bold text-neutral-600 tracking-[-0.4px]">인기 키워드</p>
             <div>
                 {KEYWORDS.slice(0, 5).map((keyword, idx) => (
                     <div
@@ -34,7 +34,7 @@ export const RecommendedKeywords = () => {
                         )}
                     >
                         <div className="flex items-center space-x-3">
-                            <span className="font-medium text-primary-600">{idx + 1}</span>
+                            <span className="text-primary-600">{idx + 1}</span>
                             <span className="font-medium text-[0.875rem] text-neutral-700">{keyword.name}</span>
                         </div>
 

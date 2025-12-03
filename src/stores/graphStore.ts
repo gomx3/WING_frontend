@@ -10,6 +10,9 @@ interface GraphStoreState {
     graphData: GraphData
     setGraphData: (data: GraphData) => void
 
+    selectedGraphId: number | null
+    setSelectedGraphId: (id: number | null) => void
+
     selectedLink: SelectedLink | null
     setSelectedLink: (link: SelectedLink) => void
     clearSelectedLink: () => void
@@ -24,6 +27,13 @@ interface GraphStoreState {
 export const useGraphStore = create<GraphStoreState>((set) => ({
     graphData: { nodes: [], links: [] },
     setGraphData: (data) => set({ graphData: data }),
+
+    selectedGraphId: null,
+    setSelectedGraphId: (id) =>
+        set({
+            selectedGraphId: id,
+            selectedLink: null,
+        }),
 
     selectedLink: null,
     setSelectedLink: (link) => set({ selectedLink: link }),
