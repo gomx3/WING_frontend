@@ -67,7 +67,7 @@ export interface GetNewGraphDto {
     subKeywords: string[]
 }
 
-export interface GetGraphDto {
+export interface GraphDto {
     graphId: number
 }
 
@@ -102,3 +102,27 @@ export interface SimpleGraph {
 }
 
 export type GetGraphListResponse = SimpleGraph[]
+
+export interface UpdateGraphDto {
+    graphId: number | null
+    name: string
+}
+
+export interface DeleteGraphDto {
+    graphId: number
+}
+
+export interface ResponseGraphName {
+    id: number
+    userID: string
+    name: string
+    createdAt: Date | string
+    updatedAt: Date | string
+}
+
+export interface ResponseDeleteGraph {
+    graphId: number
+    deletedNew: number
+    deletedEdges: number
+    deletedNodes: number
+}

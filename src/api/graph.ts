@@ -5,9 +5,13 @@ import {
     GetNewGraphDto,
     GetGraphListResponse,
     GetGraphResponse,
-    GetGraphDto,
+    GraphDto,
     GetNewsByGraphDto,
     GetNewsByEdgeDto,
+    ResponseGraphName,
+    ResponseDeleteGraph,
+    DeleteGraphDto,
+    UpdateGraphDto,
 } from '@/types/graph'
 import { axiosInstance } from './axios'
 
@@ -26,14 +30,14 @@ export const getGraphList = async (): Promise<GetGraphListResponse> => {
     return data
 }
 
-export const getNodesByGraph = async ({ graphId }: GetGraphDto): Promise<ApiNode[]> => {
+export const getNodesByGraph = async ({ graphId }: GraphDto): Promise<ApiNode[]> => {
     const { data } = await axiosInstance.get(`/user/nodes/by-graph`, {
         params: { graphId },
     })
     return data
 }
 
-export const getEdgesByGraph = async ({ graphId }: GetGraphDto): Promise<ApiEdge[]> => {
+export const getEdgesByGraph = async ({ graphId }: GraphDto): Promise<ApiEdge[]> => {
     const { data } = await axiosInstance.get(`/user/edges/by-graph`, {
         params: { graphId },
     })
@@ -57,5 +61,15 @@ export const getNewsByEdge = async ({
     const { data } = await axiosInstance.get(`/user/news/by-edge`, {
         params: { take, cursor, graphId, startPoint, endPoint },
     })
+    return data
+}
+
+export const patchGraphName = async ({ graphId, name }: UpdateGraphDto): Promise<ResponseGraphName> => {
+    const { data } = await axiosInstance.patch(`/user/graphs/${graphId}`, { name })
+    return data
+}
+
+export const deleteGraph = async ({ graphId }: DeleteGraphDto): Promise<ResponseDeleteGraph> => {
+    const { data } = await axiosInstance.delete(`/user/graphs/${graphId}`)
     return data
 }
