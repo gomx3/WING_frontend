@@ -65,11 +65,11 @@ export const ArticlePanel = () => {
                     {`${selectedLink.source}, ${selectedLink.target} 관련 기사`}
                 </h3>
                 <p className="text-sm tracking-[-0.45px] text-neutral-600">
-                    {`함께 언급된 ${formatNumber(currentEdge.totalEstimated)}개의 기사 중 `}
+                    수집된 기사 중{' '}
                     <span className="font-medium text-primary-600">
                         최신 {formatNumber(currentEdge.collectedCount)}개
                     </span>
-                    의 기사입니다.
+                    의 관련 기사를 찾았습니다.
                 </p>
             </div>
 
