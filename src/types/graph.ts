@@ -104,7 +104,7 @@ export interface SimpleGraph {
 export type GetGraphListResponse = SimpleGraph[]
 
 export interface UpdateGraphDto {
-    graphId: number | null
+    graphId: number
     name: string
 }
 

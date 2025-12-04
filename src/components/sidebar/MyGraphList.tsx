@@ -33,9 +33,8 @@ export const MyGraphList = () => {
         setEditName('')
     }
 
-    const handleSaveEdit = (e: React.MouseEvent) => {
-        e.stopPropagation()
-        if (!editName.trim()) return
+    const handleSave = () => {
+        if (!editName.trim() || editingId === null) return
 
         updateGraph(
             { graphId: editingId, name: editName },
@@ -43,6 +42,11 @@ export const MyGraphList = () => {
                 onSuccess: () => setEditingId(null),
             }
         )
+    }
+
+    const handleSaveEdit = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        handleSave()
     }
 
     const handleDeleteClick = (e: React.MouseEvent, graphId: number) => {
@@ -67,8 +71,7 @@ export const MyGraphList = () => {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             e.preventDefault()
-            if (!editName.trim()) return
-            updateGraph({ graphId: editingId, name: editName }, { onSuccess: () => setEditingId(null) })
+            handleSave()
         }
     }
 
