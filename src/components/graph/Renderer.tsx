@@ -16,7 +16,9 @@ export const Renderer = () => {
     const isError = isNodesError || isEdgesError
     const hasData = nodesData && nodesData.length > 0 && edgesData && edgesData.length > 0
 
-    // Case 0: 로그인 직후 — 그래프 ID 없음
+    if (isLoading) return <LoadingSpinner />
+
+    // 로그인 직후 — 그래프 ID 없음
     if (!selectedGraphId) {
         return (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
@@ -31,20 +33,17 @@ export const Renderer = () => {
 
     return (
         <>
-            {/* Case 1: 로딩 중 */}
-            {isLoading && <LoadingSpinner />}
-
-            {/* Case 2: 로딩 완료 + 데이터 있음 (성공) */}
+            {/* 데이터 있음 (성공) */}
             {!isLoading && hasData && <D3GraphView nodesData={nodesData} edgesData={edgesData} />}
 
-            {/* Case 3: 로딩 완료 + "오류" 발생 */}
+            {/* 오류 발생 */}
             {!isLoading && isError && (
                 <div className="absolute inset-0 flex items-center justify-center">
                     <p className="text-primary-500">그래프 데이터를 불러오는 중 오류가 발생했습니다.</p>
                 </div>
             )}
 
-            {/* Case 4: 로딩 완료 + 오류 없음 + 데이터 없음 (초기 상태) */}
+            {/* 오류 없음 + 데이터 없음 (초기 상태) */}
             {!isLoading && !isError && !hasData && (
                 <div className="absolute inset-0 flex items-center justify-center">
                     <p className="text-neutral-500">선택한 그래프에 데이터가 없습니다.</p>
