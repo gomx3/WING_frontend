@@ -20,7 +20,7 @@ export const useGetNodes = (graphId: number | null) => {
     const accessToken = useAuthStore((state) => state.accessToken)
 
     return useQuery({
-        queryKey: ['nodes', graphId ?? 'default'],
+        queryKey: ['nodes', graphId],
         queryFn: () => getNodesByGraph({ graphId: graphId! }),
         staleTime: 10 * 60 * 1000,
         gcTime: 15 * 60 * 1000,
