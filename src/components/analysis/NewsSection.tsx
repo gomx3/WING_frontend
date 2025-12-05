@@ -1,4 +1,5 @@
 import { CompanyNewsResponse } from '@/types/analysis'
+import { formatDate } from '@/utils/format'
 import { UseQueryResult } from '@tanstack/react-query'
 
 interface Props {
@@ -23,7 +24,7 @@ export const NewsSection = ({ data }: Props) => {
                         <h4 className="text-sm font-medium text-neutral-700 line-clamp-2">{item.headline}</h4>
                         <div className="mt-2 flex justify-between text-xs text-neutral-600">
                             <span>{item.source}</span>
-                            <span>{new Date(item.datetime * 1000).toLocaleDateString()}</span>
+                            <span>{formatDate(item.datetime)}</span>
                         </div>
                     </a>
                 ))}

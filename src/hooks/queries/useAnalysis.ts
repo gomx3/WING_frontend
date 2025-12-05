@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getAnalysisSymbol, getPriceMa, getRsi, getMomentum, getRecommendation, getCompanyNews } from '@/api/analysis'
-import { MomentumItem, RsiItem } from '@/types/analysis'
+import { MomentumItem, RecommendationResponse, RsiItem, TransformedRecommendationItem } from '@/types/analysis'
+import { RECOMMENDATION_COLORS } from '@/constants/analysis'
 
 export const useStockAnalysis = (graphId: number | null) => {
     const { data: symbolData, isLoading: isSymbolLoading } = useQuery({
@@ -56,15 +57,15 @@ export const useStockAnalysis = (graphId: number | null) => {
     })
 
     // 4. Recommendation: Recharts용 배열로 변환
-    const recommendation = useQuery({
+    const recommendation = useQuery<RecommendationResponse, Error, TransformedRecommendationItem[]>({
         queryKey: ['analysis', 'recommendation', symbol, isDomestic],
         queryFn: () => getRecommendation(symbol!, isDomestic),
         select: (data) => [
-            { name: 'Strong Sell', value: data.strongSell, fill: '#ef4444' },
-            { name: 'Sell', value: data.sell, fill: '#f87171' },
-            { name: 'Hold', value: data.hold, fill: '#fbbf24' },
-            { name: 'Buy', value: data.buy, fill: '#34d399' },
-            { name: 'Strong Buy', value: data.strongBuy, fill: '#10b981' },
+            { name: 'Strong Sell', value: data.strongSell, fill: RECOMMENDATION_COLORS.strongSell },
+            { name: 'Sell', value: data.sell, fill: RECOMMENDATION_COLORS.sell },
+            { name: 'Hold', value: data.hold, fill: RECOMMENDATION_COLORS.hold },
+            { name: 'Buy', value: data.buy, fill: RECOMMENDATION_COLORS.buy },
+            { name: 'Strong Buy', value: data.strongBuy, fill: RECOMMENDATION_COLORS.strongBuy },
         ],
         ...commonOptions,
     })

@@ -54,8 +54,10 @@ export const Renderer = () => {
                 </div>
             )}
 
-            {isInvestmentMode && <StockDashboard graphId={selectedGraphId} />}
-            {isInvestmentMode && wingScoreData && <WingScorePanel wingScore={wingScoreData.wingScore} />}
+            {isInvestmentMode && selectedGraphId && <StockDashboard graphId={selectedGraphId} />}
+            {isInvestmentMode && selectedGraphId && wingScoreData && (
+                <WingScorePanel wingScore={wingScoreData.wingScore} />
+            )}
         </div>
     )
 }

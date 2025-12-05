@@ -60,3 +60,9 @@ export interface WingScoreResponse {
     graphId: number
     wingScore: number
 }
+
+export interface TransformedRecommendationItem {
+    name: string
+    value: number
+    fill: string
+}
