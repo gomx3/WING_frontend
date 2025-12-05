@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { PopularKeywords } from './PopularKeywords'
+import { TopKeywords } from './TopKeywords'
 import { KeywordInput } from './KeywordInput'
 import { KeywordsCurrent } from './KeywordsCurrent'
 import { KeywordsRecommend } from './KeywordsRecommend'
@@ -59,7 +59,7 @@ export const KeywordSearchBar = () => {
 
     return (
         <div className="flex flex-row w-full max-w-2xl gap-2">
-            <PopularKeywords />
+            <TopKeywords />
 
             <div className="w-full p-4 rounded-2xl bg-neutral-50 border border-neutral-100 shadow-lg">
                 <KeywordInput
