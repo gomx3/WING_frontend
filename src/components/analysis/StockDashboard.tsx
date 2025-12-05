@@ -44,7 +44,7 @@ export const StockDashboard = ({ graphId }: Props) => {
             {isExpanded && (
                 <>
                     <hr className="my-4 border-neutral-300" />
-                    <div className="pr-4 overflow-y-auto space-y-4 scrollbar-hide pb-2">
+                    <div className="pr-4 overflow-y-auto overflow-x-hidden space-y-4 scrollbar-hide pb-2">
                         <PriceChartSection data={priceMa} />
                         <RsiChartSection data={rsi} />
                         <MomentumChartSection data={momentum} />

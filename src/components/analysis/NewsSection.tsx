@@ -6,9 +6,11 @@ interface Props {
 }
 
 export const NewsSection = ({ data }: Props) => {
+    if (data.data?.length === 0) return null
+
     return (
         <section className="pb-4">
-            <h3 className="text-sm font-semibold text-neutral-600 mb-3">최신 뉴스 (20건)</h3>
+            <h3 className="text-sm font-semibold text-neutral-600 mb-3">최신 뉴스</h3>
             <div className="space-y-3">
                 {data.data?.map((item) => (
                     <a
