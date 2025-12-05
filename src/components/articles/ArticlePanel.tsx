@@ -59,7 +59,7 @@ export const ArticlePanel = () => {
     const flatItems = newsData.pages.flatMap((page) => page.items)
 
     return (
-        <div className="w-[36rem] h-full px-8 py-6 border-l border-neutral-200 overflow-y-auto">
+        <div className="w-[31.25rem] h-full px-8 py-6 border-l border-neutral-200 overflow-y-auto">
             <div className="space-y-2">
                 <h3 className="text-neutral-700 font-bold text-[1.4rem] tracking-[-0.5px]">
                     {`${selectedLink.source}, ${selectedLink.target} 관련 기사`}

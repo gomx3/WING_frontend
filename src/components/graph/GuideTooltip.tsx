@@ -1,9 +1,11 @@
 import { Info } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Tooltip from '@/assets/guide-tooltip.svg'
+import { useGraphStore } from '@/stores'
 
 export const GuideTooltip = () => {
     const [showTooltip, setShowTooltip] = useState(true)
+    const selectedGraphId = useGraphStore((state) => state.selectedGraphId)
 
     const handleInfoClick = () => setShowTooltip(!showTooltip)
 
@@ -17,13 +19,17 @@ export const GuideTooltip = () => {
 
     return (
         <>
-            <button className="absolute top-5 right-5 z-10 cursor-pointer">
-                <div className="relative">
-                    <Info onClick={handleInfoClick} className="text-neutral-500 pulse-attention" />
-                </div>
-            </button>
+            {selectedGraphId && (
+                <>
+                    <button className="absolute bottom-6 left-7 z-10 cursor-pointer">
+                        <div className="relative">
+                            <Info onClick={handleInfoClick} className="text-neutral-500 pulse-attention" />
+                        </div>
+                    </button>
 
-            {showTooltip && <Tooltip className="absolute -top-[6px] right-10 z-10" />}
+                    {showTooltip && <Tooltip className="absolute bottom-10 left-2 z-10" />}
+                </>
+            )}
         </>
     )
 }
