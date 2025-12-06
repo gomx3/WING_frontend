@@ -1,14 +1,18 @@
-import { useGetEdges, useGetNodes } from '@/hooks'
+import { useGetEdges, useGetNodes, useGetWingScore } from '@/hooks'
 import { useGraphStore } from '@/stores/graphStore'
 import { D3GraphView } from './D3GraphView'
 import { LoadingSpinner } from '../LoadingSpinner'
 import { TextSearch } from 'lucide-react'
+import { StockDashboard } from '../analysis'
+import { WingScorePanel } from './WingScorePanel'
 
 export const Renderer = () => {
     const selectedGraphId = useGraphStore((state) => state.selectedGraphId)
+    const isInvestmentMode = useGraphStore((state) => state.isInvestmentMode)
 
     const { data: nodesData, isLoading: isNodesLoading, isError: isNodesError } = useGetNodes(selectedGraphId)
     const { data: edgesData, isLoading: isEdgesLoading, isError: isEdgesError } = useGetEdges(selectedGraphId)
+    const { data: wingScoreData } = useGetWingScore(selectedGraphId)
 
     const isGraphLoading = useGraphStore((state) => state.isGraphLoading)
 
@@ -32,7 +36,7 @@ export const Renderer = () => {
     }
 
     return (
-        <>
+        <div className="w-full">
             {/* 데이터 있음 (성공) */}
             {!isLoading && hasData && <D3GraphView nodesData={nodesData} edgesData={edgesData} />}
 
@@ -49,6 +53,11 @@ export const Renderer = () => {
                     <p className="text-neutral-500">선택한 그래프에 데이터가 없습니다.</p>
                 </div>
             )}
-        </>
+
+            {isInvestmentMode && selectedGraphId && <StockDashboard graphId={selectedGraphId} />}
+            {isInvestmentMode && selectedGraphId && wingScoreData && (
+                <WingScorePanel wingScore={wingScoreData.wingScore} />
+            )}
+        </div>
     )
 }

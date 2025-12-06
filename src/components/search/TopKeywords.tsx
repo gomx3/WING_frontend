@@ -1,26 +1,22 @@
 import { MAX_KEYWORDS } from '@/constants/common'
+import { useGetTopKeywords } from '@/hooks/queries/useGetTopKeywords'
 import { useSearchStore } from '@/stores/searchStore'
 import clsx from 'clsx'
 import { CornerDownLeft } from 'lucide-react'
+import { TopKeywordsSkeleton } from './TopKeywordsSkeleton'
 
-const KEYWORDS = [
-    { name: 'AI' },
-    { name: 'TSLA' },
-    { name: 'GPU' },
-    { name: '반도체' },
-    { name: '삼성전자' },
-    { name: '환율' },
-    { name: 'NVDA' },
-] as const
-
-export const PopularKeywords = () => {
+export const TopKeywords = () => {
     const { keywords, setKeywords } = useSearchStore()
+
+    const { data: topKeywords, isLoading } = useGetTopKeywords()
+
+    if (isLoading || !topKeywords) return <TopKeywordsSkeleton />
 
     return (
         <div className="flex flex-col w-[16rem] h-fit p-4 gap-3  rounded-2xl bg-neutral-50 border border-neutral-100 shadow-lg">
             <p className="text-sm font-bold text-neutral-600 tracking-[-0.4px]">인기 키워드</p>
             <div>
-                {KEYWORDS.slice(0, 5).map((keyword, idx) => (
+                {topKeywords.map((keyword, idx) => (
                     <div
                         key={keyword.name}
                         onClick={() => {
