@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { usePathname } from 'next/navigation'
-import { ChartArea, ChartNetwork, ChevronsRight } from 'lucide-react'
+import { ChartNetwork, ChevronsRight } from 'lucide-react'
 import { TabButton } from './TabButton'
 import { SlideMenu } from './SlideMenu'
 import { useAuthStore } from '@/stores/authStore'
@@ -54,13 +54,13 @@ export const Sidebar = () => {
                     <ChartNetwork />
                 </TabButton>
 
-                <TabButton
+                {/* <TabButton
                     label="내 투자"
                     handleClick={() => handleTabClick('investment')}
                     isActive={activeTab === 'investment' && showMenu}
                 >
                     <ChartArea />
-                </TabButton>
+                </TabButton> */}
             </aside>
 
             <SlideMenu showMenu={showMenu} toggleMenu={toggleMenu} activeTab={activeTab} />

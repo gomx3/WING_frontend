@@ -15,7 +15,7 @@ export const WingScorePanel = ({ wingScore }: WingScorePanelProps) => {
         : 'text-blue-600 bg-blue-50 border-blue-200'
 
     return (
-        <div className="absolute top-4 left-4 z-20 group">
+        <div className="absolute top-4 left-4 z-10 group">
             <div
                 className={`flex items-center gap-3 px-3 py-2.5 backdrop-blur-md border rounded-2xl shadow-sm transition-all hover:shadow-md ${colorClass} bg-opacity-90`}
             >

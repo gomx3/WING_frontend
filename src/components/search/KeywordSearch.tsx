@@ -31,7 +31,7 @@ export const KeywordSearch = () => {
     return (
         <div className={isSearchOpen ? 'block' : 'hidden'}>
             {/* overlay */}
-            <div onClick={toggleSearch} className="fixed inset-0 w-full h-full z-10 bg-neutral-400/30" />
+            <div onClick={toggleSearch} className="fixed inset-0 w-full h-full z-20 bg-neutral-400/30" />
 
             <div className="absolute flex justify-center items-center w-full z-20 pt-0 px-4">
                 <KeywordSearchBar />
