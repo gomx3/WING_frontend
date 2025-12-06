@@ -20,7 +20,7 @@ interface Props {
 export const MomentumChartSection = ({ data }: Props) => {
     return (
         <section>
-            <h3 className="text-sm font-semibold text-neutral-600 mb-3">Momentum (10)</h3>
+            <h3 className="text-sm font-semibold text-neutral-600 mb-3">Momentum (14)</h3>
             <div className="h-24 w-full text-xs">
                 {data.data ? (
                     <ResponsiveContainer width="100%" height="100%">

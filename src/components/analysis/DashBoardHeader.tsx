@@ -2,12 +2,13 @@ import { Minus, Plus } from 'lucide-react'
 
 interface DashBoardHeaderProps {
     isDomestic: boolean
+    name?: string
     symbol: string
     isExpanded: boolean
     setIsExpanded: (val: boolean) => void
 }
 
-export const DashBoardHeader = ({ isDomestic, symbol, isExpanded, setIsExpanded }: DashBoardHeaderProps) => {
+export const DashBoardHeader = ({ isDomestic, symbol, name, isExpanded, setIsExpanded }: DashBoardHeaderProps) => {
     return (
         <div className="flex justify-between items-start">
             <div className="flex flex-col gap-2">
@@ -16,9 +17,11 @@ export const DashBoardHeader = ({ isDomestic, symbol, isExpanded, setIsExpanded 
                         isDomestic ? 'bg-blue-100 text-blue-600' : 'bg-primary-900 text-primary-600'
                     }`}
                 >
-                    {isDomestic ? '국내 (KIS)' : '해외 (AlphaVantage)'}
+                    {isDomestic ? '국내 (KIS)' : '해외 (AlphaVantage & Finnhub)'}
                 </span>
-                <h2 className="font-semibold text-neutral-800 flex items-center ml-1 gap-2">{symbol} 분석 리포트</h2>
+                <h2 className="font-semibold text-neutral-800 flex items-center ml-1 gap-2 whitespace-pre-line">
+                    {isDomestic ? `${symbol} (${name})\n` : symbol} 분석 리포트
+                </h2>
             </div>
 
             {/* Toggle Button */}

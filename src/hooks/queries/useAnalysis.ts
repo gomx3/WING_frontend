@@ -57,16 +57,19 @@ export const useStockAnalysis = (graphId: number | null) => {
     })
 
     // 4. Recommendation: Recharts용 배열로 변환
-    const recommendation = useQuery<RecommendationResponse, Error, TransformedRecommendationItem[]>({
+    const recommendation = useQuery<RecommendationResponse, Error, TransformedRecommendationItem>({
         queryKey: ['analysis', 'recommendation', symbol, isDomestic],
         queryFn: () => getRecommendation(symbol!, isDomestic),
-        select: (data) => [
-            { name: 'Strong Sell', value: data.strongSell, fill: RECOMMENDATION_COLORS.strongSell },
-            { name: 'Sell', value: data.sell, fill: RECOMMENDATION_COLORS.sell },
-            { name: 'Hold', value: data.hold, fill: RECOMMENDATION_COLORS.hold },
-            { name: 'Buy', value: data.buy, fill: RECOMMENDATION_COLORS.buy },
-            { name: 'Strong Buy', value: data.strongBuy, fill: RECOMMENDATION_COLORS.strongBuy },
-        ],
+        select: (data) => ({
+            stockName: data.symbol,
+            chartData: [
+                { name: 'Strong Sell', value: data.strongSell, fill: RECOMMENDATION_COLORS.strongSell },
+                { name: 'Sell', value: data.sell, fill: RECOMMENDATION_COLORS.sell },
+                { name: 'Hold', value: data.hold, fill: RECOMMENDATION_COLORS.hold },
+                { name: 'Buy', value: data.buy, fill: RECOMMENDATION_COLORS.buy },
+                { name: 'Strong Buy', value: data.strongBuy, fill: RECOMMENDATION_COLORS.strongBuy },
+            ],
+        }),
         ...commonOptions,
     })
 

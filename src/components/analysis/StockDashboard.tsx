@@ -30,12 +30,13 @@ export const StockDashboard = ({ graphId }: Props) => {
 
     return (
         <div
-            className={`absolute top-4 right-4 p-4 w-[280px] bg-white border border-neutral-200 rounded-2xl z-30 flex flex-col shadow-2xl overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`absolute top-4 right-4 p-4 w-[280px] bg-white border border-neutral-200 rounded-2xl z-10 flex flex-col shadow-2xl overflow-hidden transition-all duration-300 ease-in-out ${
                 isExpanded ? 'h-11/12' : 'h-auto'
             }`}
         >
             <DashBoardHeader
                 isDomestic={isDomestic}
+                name={recommendation.data?.stockName}
                 symbol={symbol}
                 isExpanded={isExpanded}
                 setIsExpanded={setIsExpanded}

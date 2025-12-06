@@ -6,10 +6,13 @@ import { UseQueryResult } from '@tanstack/react-query'
 interface Props {
     data: UseQueryResult<
         {
-            name: string
-            value: number
-            fill: string
-        }[],
+            stockName: string
+            chartData: {
+                name: string
+                value: number
+                fill: string
+            }[]
+        },
         Error
     >
 }
@@ -25,18 +28,20 @@ interface Props {
  * @returns {JSX.Element} 투자의견 차트 섹션
  */
 export const RecommendationSection = ({ data }: Props) => {
+    const chartData = data.data?.chartData
+
     return (
         <section>
             <h3 className="text-sm font-semibold text-neutral-600 mb-3">전문가 투자의견</h3>
             <div className="h-32 w-full text-xs">
-                {data.data ? (
+                {chartData ? (
                     <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={data.data} layout="vertical">
+                        <BarChart data={chartData} layout="vertical">
                             <XAxis type="number" hide />
                             <YAxis dataKey="name" type="category" width={80} tick={{ fill: '#888888', fontSize: 11 }} />
                             <Tooltip cursor={{ fill: '#ddd' }} />
                             <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                                {data.data.map((entry, index) => (
+                                {chartData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.fill} />
                                 ))}
                             </Bar>

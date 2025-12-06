@@ -40,6 +40,7 @@ export interface RecommendationResponse {
     strongBuy: number
     strongSell: number
     period: string
+    symbol: string
 }
 
 export interface CompanyNewsItem {
@@ -62,7 +63,10 @@ export interface WingScoreResponse {
 }
 
 export interface TransformedRecommendationItem {
-    name: string
-    value: number
-    fill: string
+    chartData: {
+        name: string
+        value: number
+        fill: string
+    }[]
+    stockName: string
 }
