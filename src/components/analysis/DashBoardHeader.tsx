@@ -2,7 +2,7 @@ import { Minus, Plus } from 'lucide-react'
 
 interface DashBoardHeaderProps {
     isDomestic: boolean
-    name?: string
+    name: string
     symbol: string
     isExpanded: boolean
     setIsExpanded: (val: boolean) => void

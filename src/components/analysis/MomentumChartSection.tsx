@@ -11,7 +11,7 @@ interface Props {
  * Momentum (모멘텀) 지표 차트 섹션 컴포넌트
  *
  * @component
- * @description 주가의 상승/하락 추세 강도를 나타내는 Momentum(Period 10) 지표를 렌더링합니다.
+ * @description 주가의 상승/하락 추세 강도를 나타내는 Momentum(Period 14) 지표를 렌더링합니다.
  * - 0선(기준선)을 포함하여 추세의 방향을 쉽게 파악할 수 있습니다.
  *
  * @param {Props} props

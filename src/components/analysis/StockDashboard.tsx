@@ -20,7 +20,7 @@ export const StockDashboard = ({ graphId }: Props) => {
     const { symbol, isDomestic, isSymbolLoading, priceMa, rsi, momentum, recommendation, news } =
         useStockAnalysis(graphId)
 
-    if (isSymbolLoading) {
+    if (isSymbolLoading || !recommendation.data) {
         return <DashboardSkeleton />
     }
 
@@ -36,7 +36,7 @@ export const StockDashboard = ({ graphId }: Props) => {
         >
             <DashBoardHeader
                 isDomestic={isDomestic}
-                name={recommendation.data?.stockName}
+                name={recommendation.data.stockName}
                 symbol={symbol}
                 isExpanded={isExpanded}
                 setIsExpanded={setIsExpanded}
